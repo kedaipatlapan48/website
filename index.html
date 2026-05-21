@@ -1,0 +1,1775 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SubiCube — Kedai Patlapan 48</title>
+  <meta name="description" content="SubiCube – Kopi susu cube ice dengan biskuit crumble cuma Rp10.000. Free ongkir radius 5km dari Unram, Mataram. Pesan via WhatsApp sekarang!" />
+  <meta property="og:title" content="SubiCube — Kedai Patlapan 48" />
+  <meta property="og:description" content="Kopi susu cube ice cuma 10 ribu. Pesan sekarang via WhatsApp!" />
+  <meta property="og:image" content="https://placehold.co/1200x630/5C1A2E/FFF5F8?text=SubiCube+%E2%80%94+Rp10.000" />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --maroon: #5C1A2E;
+      --maroon-light: #8B2E4A;
+      --pink-deep: #D96A8A;
+      --pink-mid: #EFAAC4;
+      --pink-soft: #F8D7E3;
+      --pink-pale: #FDE8F0;
+      --cream: #FFF5F8;
+      --white: #FFFFFF;
+      --font-display: "DM Serif Display", serif;
+      --font-body: "Plus Jakarta Sans", sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      background: var(--pink-pale);
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--pink-soft); }
+    ::-webkit-scrollbar-thumb { background: var(--pink-deep); border-radius: 2px; }
+
+    /* ── Navbar ── */
+    .navbar-wrap {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 93%;
+      max-width: 62rem;
+      z-index: 200;
+      pointer-events: none;
+      transition: top 0.3s;
+    }
+    .navbar-wrap.scrolled { top: 8px; }
+    .navbar {
+      pointer-events: auto;
+      backdrop-filter: blur(20px) saturate(1.8);
+      -webkit-backdrop-filter: blur(20px) saturate(1.8);
+      border-radius: 9999px;
+      background: rgba(255, 245, 248, 0.72);
+      border: 1.5px solid rgba(92, 26, 46, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 18px;
+      box-shadow: 0 4px 32px rgba(92,26,46,0.08);
+      transition: box-shadow 0.3s, background 0.3s;
+    }
+    .navbar-wrap.scrolled .navbar {
+      box-shadow: 0 8px 40px rgba(92,26,46,0.15);
+      background: rgba(255, 245, 248, 0.92);
+    }
+    .logo-wrap {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+      text-decoration: none;
+    }
+    .logo-name {
+      font-family: var(--font-display);
+      font-size: 22px;
+      color: var(--maroon);
+      letter-spacing: -0.01em;
+    }
+    .logo-sub {
+      font-size: 9px;
+      color: var(--pink-deep);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .nav-links {
+      display: none;
+      gap: 28px;
+    }
+    @media (min-width: 768px) { .nav-links { display: flex; } }
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--maroon);
+      text-decoration: none;
+      transition: opacity 0.2s;
+      letter-spacing: 0.01em;
+    }
+    .nav-links a:hover { opacity: 0.5; }
+
+    /* Hamburger */
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    @media (min-width: 768px) { .hamburger { display: none; } }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--maroon);
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile menu drawer */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: rgba(255,245,248,0.97);
+      backdrop-filter: blur(20px);
+      z-index: 190;
+      padding: 76px 24px 24px;
+      flex-direction: column;
+      gap: 0;
+      transform: translateY(-100%);
+      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+      max-height: 55vh;
+      overflow-y: auto;
+    }
+    .mobile-menu.open {
+      transform: translateY(0);
+    }
+    @media (max-width: 767px) { .mobile-menu { display: flex; } }
+    .mobile-menu a {
+      font-family: var(--font-display);
+      font-size: 24px;
+      color: var(--maroon);
+      text-decoration: none;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(92,26,46,0.1);
+      transition: opacity 0.2s;
+    }
+    .mobile-menu a:hover { opacity: 0.5; }
+    .mobile-menu a:last-child { border-bottom: none; }
+
+    .cta-btn {
+      position: relative;
+      overflow: hidden;
+      background: var(--maroon);
+      border-radius: 9999px;
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 9px 22px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: inset 0 -3px 4px rgba(255,255,255,0.2), 0 4px 16px rgba(92,26,46,0.3);
+      cursor: pointer;
+      border: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .cta-btn:hover { transform: translateY(-1px); box-shadow: inset 0 -3px 4px rgba(255,255,255,0.2), 0 8px 24px rgba(92,26,46,0.35); }
+    .cta-glint {
+      position: absolute;
+      width: 75%; height: 12px;
+      left: 12%; top: 2px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+      border-radius: 12px;
+      pointer-events: none;
+    }
+    .cta-label { position: relative; z-index: 1; }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding-top: 96px;
+      padding-bottom: 48px;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, #f9ccd7 0%, transparent 70%),
+        radial-gradient(ellipse 60% 80% at 100% 100%, #f4aac0 0%, transparent 65%),
+        radial-gradient(ellipse 50% 70% at 0% 80%, #fce0eb 0%, transparent 60%),
+        linear-gradient(160deg, #fde8f0 0%, #f8d0e0 40%, #f0b8ce 100%);
+    }
+    .cloud {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(40px);
+      opacity: 0.55;
+      pointer-events: none;
+    }
+    .cloud-1 { width:500px;height:300px;background:rgba(255,255,255,0.8);top:-60px;left:-80px;animation:drift1 18s ease-in-out infinite; }
+    .cloud-2 { width:400px;height:250px;background:rgba(255,255,255,0.7);top:40px;right:-100px;animation:drift2 22s ease-in-out infinite; }
+    .cloud-3 { width:320px;height:200px;background:rgba(255,220,235,0.8);top:25%;left:-60px;animation:drift3 16s ease-in-out infinite; }
+    .cloud-4 { width:280px;height:180px;background:rgba(255,255,255,0.6);bottom:10%;right:-40px;animation:drift1 20s ease-in-out infinite reverse; }
+    .cloud-5 { width:200px;height:140px;background:rgba(240,185,210,0.5);bottom:20%;left:10%;animation:drift2 14s ease-in-out infinite; }
+    @keyframes drift1 { 0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(30px,-20px) scale(1.05);}66%{transform:translate(-15px,10px) scale(0.98);} }
+    @keyframes drift2 { 0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(-25px,15px) scale(1.04);} }
+    @keyframes drift3 { 0%,100%{transform:translate(0,0);}40%{transform:translate(20px,-10px);}80%{transform:translate(-10px,5px);} }
+    .sparkle { position:absolute;pointer-events:none;z-index:5; }
+    .sparkle svg { animation:twinkle var(--d,3s) ease-in-out infinite var(--delay,0s); }
+    @keyframes twinkle { 0%,100%{opacity:0.2;transform:scale(0.8) rotate(0deg);}50%{opacity:1;transform:scale(1.2) rotate(15deg);} }
+    @keyframes fadeInUp { from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);} }
+    @keyframes fadeInScale { from{opacity:0;transform:scale(0.94);}to{opacity:1;transform:scale(1);} }
+
+    .hero-inner {
+      position: relative; z-index: 20;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 32px;
+      width: 100%; max-width: 1100px;
+      padding: 0 24px;
+    }
+    @media (min-width: 900px) {
+      .hero-inner { flex-direction: row; align-items: center; justify-content: center; gap: 0; }
+    }
+
+    .hero-left {
+      flex: 1; text-align: center;
+      display: flex; flex-direction: column; align-items: center; gap: 20px;
+    }
+    @media (min-width: 900px) { .hero-left { text-align: left; align-items: flex-start; padding-right: 40px; } }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.7);
+      border: 1.5px solid rgba(92,26,46,0.15);
+      border-radius: 9999px; padding: 6px 14px;
+      font-size: 12px; font-weight: 600; color: var(--maroon);
+      letter-spacing: 0.06em; text-transform: uppercase;
+      backdrop-filter: blur(8px);
+      opacity: 0; animation: fadeInUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.1s forwards;
+    }
+    .hero-badge-dot {
+      width: 7px; height: 7px;
+      background: var(--pink-deep); border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.4);opacity:0.6;} }
+
+    .hero-h1 {
+      font-family: var(--font-display);
+      font-size: clamp(42px,6vw,76px);
+      line-height: 0.9; letter-spacing: -0.02em;
+      color: var(--maroon);
+      opacity: 0; animation: fadeInScale 1.2s cubic-bezier(0.16,1,0.3,1) 0.25s forwards;
+    }
+    .hero-h1 em { font-style: italic; color: var(--pink-deep); }
+    .hero-desc {
+      font-size: clamp(15px,1.8vw,17px);
+      color: rgba(92,26,46,0.7); line-height: 1.7;
+      font-weight: 400; max-width: 420px;
+      opacity: 0; animation: fadeInUp 1s cubic-bezier(0.16,1,0.3,1) 0.45s forwards;
+    }
+
+    .ing-pills {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      opacity: 0; animation: fadeInUp 1s cubic-bezier(0.16,1,0.3,1) 0.6s forwards;
+    }
+    .pill {
+      background: rgba(255,255,255,0.65);
+      border: 1.5px solid rgba(92,26,46,0.12);
+      border-radius: 9999px; padding: 5px 14px;
+      font-size: 12px; font-weight: 600; color: var(--maroon);
+      backdrop-filter: blur(8px); letter-spacing: 0.04em;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .pill:hover { background: rgba(255,255,255,0.9); transform: translateY(-2px); }
+
+    .price-tag {
+      display: inline-flex; align-items: baseline; gap: 4px;
+      opacity: 0; animation: fadeInUp 1s cubic-bezier(0.16,1,0.3,1) 0.75s forwards;
+    }
+    .price-label { font-size: 13px; font-weight: 600; color: var(--maroon-light); letter-spacing: 0.05em; text-transform: uppercase; }
+    .price-value { font-family: var(--font-display); font-size: 52px; color: var(--maroon); line-height: 1; letter-spacing: -0.03em; }
+    .price-unit { font-size: 20px; font-weight: 700; color: var(--maroon); align-self: flex-end; padding-bottom: 6px; }
+
+    .hero-ctas {
+      display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+      opacity: 0; animation: fadeInUp 1s cubic-bezier(0.16,1,0.3,1) 0.9s forwards;
+    }
+    .btn-primary {
+      background: var(--maroon); color: white; border: none;
+      border-radius: 9999px; padding: 14px 32px;
+      font-family: var(--font-body); font-size: 14px; font-weight: 700;
+      cursor: pointer; box-shadow: 0 6px 24px rgba(92,26,46,0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(92,26,46,0.4); }
+    .btn-secondary {
+      background: rgba(255,255,255,0.7); color: var(--maroon);
+      border: 1.5px solid rgba(92,26,46,0.2);
+      border-radius: 9999px; padding: 13px 28px;
+      font-family: var(--font-body); font-size: 14px; font-weight: 600;
+      cursor: pointer; backdrop-filter: blur(8px);
+      transition: background 0.2s, transform 0.2s;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.9); transform: translateY(-2px); }
+
+    .free-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, var(--maroon), var(--maroon-light));
+      color: white; border-radius: 9999px; padding: 8px 18px;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+      opacity: 0; animation: fadeInUp 1s cubic-bezier(0.16,1,0.3,1) 1.05s forwards;
+      box-shadow: 0 4px 16px rgba(92,26,46,0.25);
+    }
+
+    /* ── Product Image ── */
+    .hero-right {
+      flex: 1; position: relative;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; animation: fadeInRight 1.2s cubic-bezier(0.16,1,0.3,1) 0.3s forwards;
+    }
+    @keyframes fadeInRight { from{opacity:0;transform:translateX(40px) scale(0.96);}to{opacity:1;transform:translateX(0) scale(1);} }
+
+    .product-frame {
+      position: relative;
+      width: min(340px, 88vw);
+    }
+    @media (min-width: 900px) { .product-frame { width: 400px; } }
+
+    .product-glow {
+      position: absolute; inset: -30px;
+      background: radial-gradient(ellipse at 50% 60%, rgba(217,106,138,0.35) 0%, transparent 70%);
+      border-radius: 50%; filter: blur(20px); pointer-events: none;
+    }
+
+    /* Product image placeholder — beautiful fallback */
+    .product-img-wrap {
+      width: 100%;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow:
+        0 30px 80px rgba(92,26,46,0.22),
+        0 8px 20px rgba(92,26,46,0.12),
+        inset 0 0 0 1.5px rgba(255,255,255,0.6);
+      display: block;
+      animation: floatImg 6s ease-in-out infinite;
+      aspect-ratio: 3/4;
+      background: linear-gradient(145deg, #f2c4d4, #e8a0bc, #d96a8a, #c44f73);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .product-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      border-radius: 28px; display: block;
+    }
+    .product-placeholder {
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .product-placeholder .cup-emoji { font-size: 80px; line-height: 1; display: block; margin-bottom: 12px; filter: drop-shadow(0 8px 20px rgba(92,26,46,0.3)); }
+    .product-placeholder .cup-label { font-family: var(--font-display); font-size: 28px; color: white; letter-spacing: -0.01em; }
+    .product-placeholder .cup-sub { font-size: 13px; color: rgba(255,255,255,0.8); font-weight: 500; margin-top: 4px; }
+
+    @keyframes floatImg { 0%,100%{transform:translateY(0px);}50%{transform:translateY(-12px);} }
+
+    .float-card {
+      position: absolute;
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(16px);
+      border: 1.5px solid rgba(92,26,46,0.12);
+      border-radius: 16px; padding: 10px 16px;
+      box-shadow: 0 8px 28px rgba(92,26,46,0.13);
+      pointer-events: none; z-index: 10;
+    }
+    .fc-1 { top: 8%; right: -5%; animation: floatCard1 5s ease-in-out infinite; }
+    .fc-2 { bottom: 12%; left: -8%; animation: floatCard2 7s ease-in-out infinite; }
+    .fc-3 { top: 50%; right: -10%; animation: floatCard1 6s ease-in-out infinite 1s; }
+    @media (max-width: 900px) { .fc-1{right:2%;} .fc-2{left:2%;} .fc-3{right:2%;} }
+    @keyframes floatCard1 { 0%,100%{transform:translateY(0) rotate(-1deg);}50%{transform:translateY(-8px) rotate(1deg);} }
+    @keyframes floatCard2 { 0%,100%{transform:translateY(0) rotate(1deg);}50%{transform:translateY(-10px) rotate(-1.5deg);} }
+    .fc-icon { font-size: 18px; margin-bottom: 3px; }
+    .fc-label { font-size: 10px; font-weight: 700; color: var(--maroon); letter-spacing: 0.06em; text-transform: uppercase; }
+    .fc-val { font-family: var(--font-display); font-size: 17px; color: var(--maroon); line-height: 1.1; }
+
+    .typing-card {
+      position: absolute; bottom: -4%; left: 50%;
+      transform: translateX(-50%);
+      background: var(--maroon); border-radius: 9999px;
+      padding: 10px 22px;
+      display: flex; align-items: center; gap: 8px;
+      white-space: nowrap; box-shadow: 0 8px 24px rgba(92,26,46,0.35); z-index: 10;
+    }
+    .typing-text { font-size: 13px; font-weight: 600; color: white; }
+    .cursor {
+      width: 2px; height: 14px;
+      background: rgba(255,255,255,0.8); border-radius: 1px;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1;}50%{opacity:0;} }
+
+    /* ── Section commons ── */
+    .sec-title {
+      font-family: var(--font-display);
+      font-size: clamp(32px,4vw,52px);
+      color: var(--maroon); letter-spacing: -0.02em;
+      text-align: center;
+    }
+    .sec-sub {
+      text-align: center; font-size: 15px;
+      color: rgba(92,26,46,0.6); font-weight: 400;
+      margin-top: 8px; max-width: 480px; margin-left: auto; margin-right: auto;
+    }
+    .sec-header { margin-bottom: 48px; }
+
+    /* ── Features ── */
+    .features {
+      background: var(--pink-pale);
+      padding: 80px 24px;
+    }
+    .features-inner { max-width: 1000px; margin: 0 auto; }
+    .feat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px; margin-top: 48px;
+    }
+    @media (min-width: 768px) { .feat-grid { grid-template-columns: repeat(4, 1fr); } }
+    .feat-card {
+      background: white;
+      border-radius: 24px; padding: 28px 20px;
+      border: 1.5px solid rgba(92,26,46,0.08);
+      box-shadow: 0 4px 20px rgba(92,26,46,0.06);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .feat-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(92,26,46,0.12); }
+    .feat-icon { font-size: 32px; margin-bottom: 14px; }
+    .feat-title { font-family: var(--font-display); font-size: 20px; color: var(--maroon); margin-bottom: 8px; }
+    .feat-desc { font-size: 13px; color: rgba(92,26,46,0.65); line-height: 1.6; }
+
+    /* ── Menu Section ── */
+    .menu-section {
+      padding: 80px 24px;
+      background: var(--pink-pale);
+    }
+    .menu-inner { max-width: 1000px; margin: 0 auto; }
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px; margin-top: 48px;
+    }
+    @media (min-width: 640px) { .menu-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 900px) { .menu-grid { grid-template-columns: repeat(4, 1fr); } }
+
+    .menu-card {
+      background: white;
+      border-radius: 24px; overflow: hidden;
+      border: 1.5px solid rgba(92,26,46,0.08);
+      box-shadow: 0 4px 20px rgba(92,26,46,0.06);
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .menu-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(92,26,46,0.14); }
+    .menu-card.featured {
+      background: linear-gradient(145deg, var(--maroon), var(--maroon-light));
+      border-color: transparent;
+    }
+    .menu-img {
+      width: 100%; aspect-ratio: unset;
+      height: 130px;
+      background: var(--pink-soft);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 44px;
+      overflow: hidden;
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .menu-card:hover .menu-img {
+      transform: scale(1.12);
+    }
+    .menu-card.featured .menu-img {
+      background: rgba(255,255,255,0.1);
+    }
+    .menu-info { padding: 16px; }
+    .menu-name {
+      font-family: var(--font-display);
+      font-size: 17px; color: var(--maroon);
+      margin-bottom: 4px;
+    }
+    .menu-card.featured .menu-name { color: white; }
+    .menu-desc { font-size: 12px; color: rgba(92,26,46,0.6); line-height: 1.5; margin-bottom: 10px; }
+    .menu-card.featured .menu-desc { color: rgba(255,255,255,0.75); }
+    .menu-price {
+      font-weight: 700; font-size: 15px; color: var(--maroon);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .menu-card.featured .menu-price { color: white; }
+    .menu-badge {
+      background: var(--pink-deep); color: white;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+      padding: 3px 8px; border-radius: 9999px; text-transform: uppercase;
+    }
+    .menu-card.featured .menu-badge {
+      background: rgba(255,255,255,0.25);
+    }
+
+    /* ── How to Order ── */
+    .order-section {
+      padding: 80px 24px;
+      background: var(--cream);
+    }
+    .order-inner { max-width: 860px; margin: 0 auto; }
+    .order-steps {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px; margin-top: 48px;
+    }
+    @media (min-width: 640px) { .order-steps { grid-template-columns: repeat(3, 1fr); } }
+    .order-step {
+      background: white; border-radius: 24px;
+      padding: 32px 24px;
+      border: 1.5px solid rgba(92,26,46,0.08);
+      box-shadow: 0 4px 20px rgba(92,26,46,0.06);
+      text-align: center;
+      position: relative;
+    }
+    .step-num {
+      font-family: var(--font-display);
+      font-size: 64px; line-height: 0.85;
+      color: var(--pink-soft);
+      position: absolute; top: 20px; right: 20px;
+      letter-spacing: -0.04em;
+    }
+    .step-icon { font-size: 36px; margin-bottom: 16px; }
+    .step-title {
+      font-family: var(--font-display);
+      font-size: 20px; color: var(--maroon);
+      margin-bottom: 8px;
+    }
+    .step-desc { font-size: 13px; color: rgba(92,26,46,0.65); line-height: 1.6; }
+    .step-detail {
+      margin-top: 12px;
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--pink-pale); border-radius: 9999px;
+      padding: 6px 14px; font-size: 12px; font-weight: 600;
+      color: var(--maroon); text-decoration: none;
+      transition: background 0.2s;
+    }
+    .step-detail:hover { background: var(--pink-soft); }
+
+    .order-channels {
+      margin-top: 40px;
+      display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+    }
+    .channel-pill {
+      display: flex; align-items: center; gap: 10px;
+      background: white; border-radius: 16px; padding: 14px 20px;
+      border: 1.5px solid rgba(92,26,46,0.1);
+      box-shadow: 0 4px 16px rgba(92,26,46,0.06);
+      text-decoration: none; transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .channel-pill:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(92,26,46,0.12); }
+    .channel-pill-icon { font-size: 24px; }
+    .channel-pill-info { display: flex; flex-direction: column; }
+    .channel-pill-name { font-size: 13px; font-weight: 700; color: var(--maroon); }
+    .channel-pill-sub { font-size: 11px; color: rgba(92,26,46,0.55); }
+
+    /* ── Testimonials ── */
+    .testi-section {
+      padding: 80px 24px;
+      background: var(--cream);
+    }
+    .testi-inner { max-width: 1000px; margin: 0 auto; }
+    .testi-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px; margin-top: 48px;
+    }
+    @media (min-width: 640px) { .testi-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 900px) { .testi-grid { grid-template-columns: repeat(3, 1fr); } }
+    .testi-card {
+      background: white; border-radius: 18px; padding: 18px 20px;
+      border: 1.5px solid rgba(92,26,46,0.08);
+      box-shadow: 0 4px 16px rgba(92,26,46,0.06);
+      transition: transform 0.3s;
+    }
+    .testi-card:hover { transform: translateY(-4px); }
+    .testi-stars { display: flex; gap: 2px; margin-bottom: 10px; font-size: 13px; }
+    .testi-text {
+      font-size: 13px; color: rgba(92,26,46,0.75);
+      line-height: 1.6; margin-bottom: 14px;
+      font-style: italic;
+    }
+    .testi-author { display: flex; align-items: center; gap: 10px; }
+    .testi-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: var(--pink-soft);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; flex-shrink: 0;
+    }
+    .testi-name { font-weight: 700; font-size: 12px; color: var(--maroon); }
+    .testi-handle { font-size: 11px; color: var(--pink-deep); }
+
+    .testi-summary {
+      margin-top: 40px;
+      display: flex; gap: 32px; flex-wrap: wrap; justify-content: center;
+    }
+    .testi-stat { text-align: center; }
+    .testi-stat-num {
+      font-family: var(--font-display);
+      font-size: 44px; color: var(--maroon);
+      line-height: 1; letter-spacing: -0.03em;
+    }
+    .testi-stat-label {
+      font-size: 13px; color: rgba(92,26,46,0.6);
+      font-weight: 500; margin-top: 4px;
+    }
+
+    /* ── Location ── */
+    .location-section {
+      padding: 80px 24px;
+      background: var(--pink-pale);
+    }
+    .location-inner { max-width: 1000px; margin: 0 auto; }
+    .location-grid {
+      display: grid; grid-template-columns: 1fr;
+      gap: 32px; margin-top: 48px; align-items: start;
+    }
+    @media (min-width: 768px) { .location-grid { grid-template-columns: 1fr 1fr; } }
+
+    .location-info { display: flex; flex-direction: column; gap: 20px; }
+    .loc-item {
+      display: flex; gap: 16px; align-items: flex-start;
+    }
+    .loc-icon {
+      width: 44px; height: 44px; flex-shrink: 0;
+      background: var(--pink-pale); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+    .loc-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--pink-deep); margin-bottom: 4px; }
+    .loc-value { font-size: 15px; color: var(--maroon); font-weight: 500; line-height: 1.5; }
+    .loc-value a { color: var(--maroon); text-decoration: none; }
+    .loc-value a:hover { text-decoration: underline; }
+
+    .jam-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; }
+    .jam-row { display: flex; justify-content: space-between; font-size: 13px; }
+    .jam-day { color: rgba(92,26,46,0.65); }
+    .jam-time { font-weight: 600; color: var(--maroon); }
+
+    .map-placeholder {
+      background: linear-gradient(145deg, #f8d7e3, #f0b8ce);
+      border-radius: 24px; overflow: hidden;
+      min-height: 280px;
+      border: 1.5px solid rgba(92,26,46,0.1);
+      box-shadow: 0 8px 32px rgba(92,26,46,0.1);
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 12px;
+    }
+    .map-pin { font-size: 48px; animation: pinBounce 2s ease-in-out infinite; }
+    @keyframes pinBounce { 0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);} }
+    .map-label { font-family: var(--font-display); font-size: 22px; color: var(--maroon); }
+    .map-sub { font-size: 13px; color: rgba(92,26,46,0.65); text-align: center; padding: 0 20px; }
+    .map-btn {
+      margin-top: 8px;
+      background: var(--maroon); color: white;
+      border-radius: 9999px; padding: 10px 24px;
+      font-size: 13px; font-weight: 700;
+      text-decoration: none; display: inline-block;
+      box-shadow: 0 4px 16px rgba(92,26,46,0.3);
+      transition: transform 0.2s;
+    }
+    .map-btn:hover { transform: translateY(-2px); }
+
+    /* ── Footer ── */
+    .footer {
+      background: var(--maroon);
+      padding: 60px 24px 40px;
+      color: white;
+    }
+    .footer-inner {
+      max-width: 1000px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    @media (min-width: 768px) { .footer-inner { grid-template-columns: 2fr 1fr 1fr; } }
+
+    .footer-brand .footer-logo {
+      font-family: var(--font-display);
+      font-size: 32px; color: white; letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .footer-brand .footer-tagline {
+      font-size: 13px; color: rgba(255,255,255,0.65);
+      line-height: 1.6; max-width: 260px;
+    }
+    .footer-brand .footer-contacts {
+      margin-top: 20px; display: flex; flex-direction: column; gap: 8px;
+    }
+    .footer-brand .footer-contacts a {
+      color: rgba(255,255,255,0.8); text-decoration: none;
+      font-size: 13px; font-weight: 500;
+      transition: color 0.2s; display: flex; align-items: center; gap: 8px;
+    }
+    .footer-brand .footer-contacts a:hover { color: white; }
+
+    .footer-col h4 {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: rgba(255,255,255,0.5);
+      margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a {
+      color: rgba(255,255,255,0.75); text-decoration: none;
+      font-size: 14px; transition: color 0.2s;
+    }
+    .footer-col ul li a:hover { color: white; }
+    .footer-col ul li span {
+      color: rgba(255,255,255,0.75); font-size: 14px;
+    }
+
+    .footer-bottom {
+      max-width: 1000px; margin: 40px auto 0;
+      border-top: 1px solid rgba(255,255,255,0.12);
+      padding-top: 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .footer-copy { font-size: 12px; color: rgba(255,255,255,0.4); }
+
+    /* WA float removed */
+
+    /* ── Back to top ── */
+    .back-top {
+      position: fixed;
+      bottom: 96px; right: 24px;
+      z-index: 300;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(255,245,248,0.9);
+      backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(92,26,46,0.15);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; text-decoration: none;
+      box-shadow: 0 4px 16px rgba(92,26,46,0.12);
+      transition: transform 0.2s, opacity 0.3s;
+      opacity: 0; pointer-events: none;
+    }
+    .back-top.visible { opacity: 1; pointer-events: auto; }
+    .back-top:hover { transform: translateY(-3px); }
+    .back-top svg { width: 18px; height: 18px; stroke: var(--maroon); fill: none; stroke-width: 2.5; }
+    /* ── New Hero Buttons ── */
+    .btn-menu-page {
+      background: linear-gradient(135deg, var(--maroon), var(--maroon-light));
+      color: white; border: none;
+      border-radius: 9999px; padding: 15px 32px;
+      font-family: var(--font-body); font-size: 15px; font-weight: 700;
+      cursor: pointer; box-shadow: 0 6px 28px rgba(92,26,46,0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+      letter-spacing: 0.01em;
+    }
+    .btn-menu-page:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(92,26,46,0.45); }
+
+    .btn-cara-pesan {
+      flex: 1;
+      background: rgba(255,255,255,0.75); color: var(--maroon);
+      border: 1.5px solid rgba(92,26,46,0.22);
+      border-radius: 9999px; padding: 13px 24px;
+      font-family: var(--font-body); font-size: 14px; font-weight: 600;
+      cursor: pointer; backdrop-filter: blur(8px);
+      transition: background 0.2s, transform 0.2s;
+      letter-spacing: 0.01em;
+    }
+    .btn-cara-pesan:hover { background: rgba(255,255,255,0.95); transform: translateY(-2px); }
+
+    /* ── Full-Page Overlay ── */
+    .page-overlay {
+      position: fixed; inset: 0; z-index: 500;
+      background: var(--cream);
+      overflow-y: auto;
+      transform: translateX(100%);
+      transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
+    }
+    .page-overlay.open { transform: translateX(0); }
+
+    .page-header {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(255,245,248,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1.5px solid rgba(92,26,46,0.1);
+      display: flex; align-items: center; gap: 16px;
+      padding: 16px 24px;
+    }
+    .page-back {
+      background: var(--pink-pale); border: 1.5px solid rgba(92,26,46,0.15);
+      border-radius: 9999px; padding: 8px 18px;
+      font-family: var(--font-body); font-size: 13px; font-weight: 700;
+      color: var(--maroon); cursor: pointer;
+      transition: background 0.2s;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .page-back:hover { background: var(--pink-soft); }
+    .page-title {
+      font-family: var(--font-display); font-size: 22px; color: var(--maroon);
+    }
+
+    .page-body { max-width: 860px; margin: 0 auto; padding: 40px 24px 80px; }
+
+    /* Menu Page */
+    .mp-intro {
+      text-align: center; margin-bottom: 40px;
+    }
+    .mp-intro h2 {
+      font-family: var(--font-display); font-size: clamp(30px,5vw,48px);
+      color: var(--maroon); letter-spacing: -0.02em; margin-bottom: 8px;
+    }
+    .mp-intro p { font-size: 15px; color: rgba(92,26,46,0.65); }
+
+    .mp-grid {
+      display: grid; grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    @media (min-width: 560px) { .mp-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 800px) { .mp-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .mp-card {
+      background: white; border-radius: 24px; padding: 24px 20px;
+      border: 1.5px solid rgba(92,26,46,0.08);
+      box-shadow: 0 4px 20px rgba(92,26,46,0.06);
+      display: flex; flex-direction: column; gap: 10px;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .mp-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(92,26,46,0.12); }
+    .mp-card.star {
+      background: linear-gradient(135deg, var(--maroon) 0%, var(--maroon-light) 100%);
+      border-color: transparent;
+    }
+    .mp-emoji { font-size: 44px; line-height: 1; }
+    .mp-name { font-family: var(--font-display); font-size: 20px; color: var(--maroon); }
+    .mp-card.star .mp-name { color: white; }
+    .mp-desc { font-size: 13px; color: rgba(92,26,46,0.65); line-height: 1.6; flex: 1; }
+    .mp-card.star .mp-desc { color: rgba(255,255,255,0.8); }
+    .mp-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
+    .mp-price { font-weight: 800; font-size: 16px; color: var(--maroon); }
+    .mp-card.star .mp-price { color: white; }
+    .mp-badge {
+      background: var(--pink-deep); color: white;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+      padding: 3px 10px; border-radius: 9999px; text-transform: uppercase;
+    }
+    .mp-card.star .mp-badge { background: rgba(255,255,255,0.25); }
+
+    .mp-order-cta {
+      margin-top: 48px; text-align: center;
+      background: linear-gradient(135deg, #fde8f0, #f8d0e0);
+      border-radius: 28px; padding: 36px 24px;
+      border: 1.5px solid rgba(92,26,46,0.1);
+    }
+    .mp-order-cta h3 { font-family: var(--font-display); font-size: 26px; color: var(--maroon); margin-bottom: 8px; }
+    .mp-order-cta p { font-size: 14px; color: rgba(92,26,46,0.65); margin-bottom: 24px; }
+
+    /* Cara Pesan Page */
+    .cp-intro {
+      text-align: center; margin-bottom: 48px;
+    }
+    .cp-intro h2 {
+      font-family: var(--font-display); font-size: clamp(30px,5vw,48px);
+      color: var(--maroon); letter-spacing: -0.02em; margin-bottom: 8px;
+    }
+    .cp-intro p { font-size: 15px; color: rgba(92,26,46,0.65); }
+
+    .cp-steps { display: flex; flex-direction: column; gap: 0; }
+
+    .cp-step {
+      display: flex; gap: 20px; align-items: flex-start;
+      padding: 28px 0;
+      border-bottom: 1.5px dashed rgba(92,26,46,0.1);
+      position: relative;
+    }
+    .cp-step:last-of-type { border-bottom: none; }
+
+    .cp-num-wrap {
+      display: flex; flex-direction: column; align-items: center; flex-shrink: 0;
+      width: 56px;
+    }
+    .cp-num {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--maroon), var(--maroon-light));
+      color: white; font-family: var(--font-display); font-size: 22px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(92,26,46,0.3); flex-shrink: 0;
+    }
+    .cp-connector {
+      width: 2px; flex: 1; min-height: 24px;
+      background: linear-gradient(to bottom, rgba(92,26,46,0.2), transparent);
+      margin-top: 8px;
+    }
+
+    .cp-content { flex: 1; }
+    .cp-icon { font-size: 32px; margin-bottom: 8px; }
+    .cp-title { font-family: var(--font-display); font-size: 22px; color: var(--maroon); margin-bottom: 6px; }
+    .cp-desc { font-size: 14px; color: rgba(92,26,46,0.7); line-height: 1.7; margin-bottom: 12px; }
+    .cp-tip {
+      background: var(--pink-pale); border-radius: 12px; padding: 12px 16px;
+      font-size: 13px; color: var(--maroon); font-weight: 500;
+      border-left: 3px solid var(--pink-deep);
+    }
+    .cp-tip strong { color: var(--pink-deep); }
+
+    .cp-cta {
+      margin-top: 48px; text-align: center;
+      background: linear-gradient(135deg, var(--maroon), var(--maroon-light));
+      border-radius: 28px; padding: 40px 24px; color: white;
+    }
+    .cp-cta h3 { font-family: var(--font-display); font-size: 28px; margin-bottom: 8px; }
+    .cp-cta p { font-size: 14px; opacity: 0.85; margin-bottom: 24px; }
+    .cp-cta .btn-wa {
+      background: white; color: var(--maroon);
+      border-radius: 9999px; padding: 14px 32px;
+      font-weight: 700; font-size: 15px; text-decoration: none;
+      display: inline-block; box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      transition: transform 0.2s;
+    }
+    .cp-cta .btn-wa:hover { transform: translateY(-2px); }
+
+    .cp-channels {
+      margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+    }
+    .cp-channel {
+      display: flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,0.15); border-radius: 14px; padding: 12px 18px;
+      border: 1.5px solid rgba(255,255,255,0.2); color: white;
+      font-size: 13px; font-weight: 600; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .cp-channel:hover { background: rgba(255,255,255,0.25); }
+    .cp-channel span { opacity: 0.75; font-weight: 400; font-size: 11px; display: block; }
+
+    /* ── New Menu Grid (3 items) ── */
+    .menu-grid-3 {
+      display: grid; grid-template-columns: 1fr;
+      gap: 24px; margin-top: 48px;
+    }
+    @media (min-width: 640px) { .menu-grid-3 { grid-template-columns: repeat(3, 1fr); } }
+    .menu-card-big .menu-img { aspect-ratio: unset !important; padding: 32px 0 20px; font-size: 64px !important; }
+    .menu-card-big .menu-info { padding: 20px; }
+    .menu-flavors { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    .mf-pill {
+      background: rgba(255,255,255,0.18); border-radius: 9999px;
+      padding: 4px 12px; font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.9);
+    }
+    .menu-card-soon { background: white; opacity: 0.92; position: relative; }
+    .menu-card-soon::after {
+      content: ''; position: absolute; inset: 0; border-radius: 24px;
+      background: repeating-linear-gradient(45deg,transparent,transparent 6px,rgba(92,26,46,0.025) 6px,rgba(92,26,46,0.025) 12px);
+      pointer-events: none;
+    }
+    .soon-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: linear-gradient(135deg, #f59e0b, #f97316);
+      color: white; border-radius: 9999px;
+      padding: 3px 12px; font-size: 10px; font-weight: 800;
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .soon-notify { margin-top: 14px; }
+    .soon-notify-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--pink-pale); color: var(--maroon);
+      border: 1.5px solid rgba(92,26,46,0.15);
+      border-radius: 9999px; padding: 7px 16px;
+      font-size: 12px; font-weight: 700; text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .soon-notify-btn:hover { background: var(--pink-soft); transform: translateY(-1px); }
+
+    /* ── Cara Pesan v2 Timeline ── */
+    .cp2-timeline { display: flex; flex-direction: column; gap: 0; margin-top: 36px; }
+    .cp2-step { display: flex; gap: 14px; align-items: flex-start; }
+    .cp2-left { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; width: 40px; }
+    .cp2-circle {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--maroon), var(--maroon-light));
+      color: white; font-family: var(--font-display); font-size: 16px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 14px rgba(92,26,46,0.3); flex-shrink: 0; position: relative; z-index: 1;
+    }
+    .cp2-circle-last { font-size: 18px; background: linear-gradient(135deg, #D96A8A, #5C1A2E); }
+    .cp2-line {
+      width: 2px; flex: 1; min-height: 24px;
+      background: linear-gradient(to bottom, rgba(92,26,46,0.25), rgba(92,26,46,0.05));
+      margin: 4px 0;
+    }
+    .cp2-card {
+      flex: 1; background: white; border-radius: 16px; padding: 14px 16px 18px;
+      border: 1.5px solid rgba(92,26,46,0.08); box-shadow: 0 4px 16px rgba(92,26,46,0.06);
+      margin-bottom: 14px; transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .cp2-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(92,26,46,0.1); }
+    .cp2-card-last { border-color: rgba(217,106,138,0.25); background: linear-gradient(135deg, #fff5f8, #fde8f0); }
+    .cp2-emoji { font-size: 22px; margin-bottom: 6px; line-height: 1; }
+    .cp2-title { font-family: var(--font-display); font-size: 17px; color: var(--maroon); margin-bottom: 5px; letter-spacing: -0.01em; }
+    .cp2-desc { font-size: 13px; color: rgba(92,26,46,0.7); line-height: 1.6; margin-bottom: 10px; }
+    .cp2-desc strong { color: var(--maroon); }
+    .cp2-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .cp2-tag {
+      background: var(--pink-pale); border-radius: 9999px;
+      padding: 6px 14px; font-size: 12px; font-weight: 600;
+      color: var(--maroon); border: 1.5px solid rgba(92,26,46,0.1);
+    }
+    .cp2-info {
+      display: flex; align-items: flex-start; gap: 8px;
+      background: rgba(217,106,138,0.08); border-radius: 12px; padding: 10px 14px;
+      font-size: 13px; color: rgba(92,26,46,0.75); border-left: 3px solid var(--pink-deep); margin-top: 4px;
+    }
+    .cp2-info-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+    .cp2-checklist { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+    .cp2-check-item { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; color: rgba(92,26,46,0.75); }
+    .cp2-check-dot {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--maroon); color: white; font-size: 10px; font-weight: 900;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;
+    }
+    .cp2-template {
+      background: var(--cream); border-radius: 12px; padding: 10px 12px;
+      border: 1.5px dashed rgba(92,26,46,0.2); margin-bottom: 10px;
+    }
+    .cp2-template-label { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--pink-deep); margin-bottom: 6px; }
+    .cp2-template-text { font-size: 13px; color: var(--maroon); line-height: 1.6; font-style: italic; }
+    .cp2-wa-inline {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #25D366; color: white; border-radius: 9999px; padding: 10px 20px;
+      font-size: 13px; font-weight: 700; text-decoration: none;
+      box-shadow: 0 4px 16px rgba(37,211,102,0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .cp2-wa-inline:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,211,102,0.45); }
+    .cp2-payment-grid { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+    .cp2-pay-item {
+      display: flex; gap: 8px; align-items: center;
+      background: var(--pink-pale); border-radius: 10px; padding: 8px 12px;
+      flex: 1; min-width: 130px; border: 1.5px solid rgba(92,26,46,0.08);
+    }
+    .cp2-pay-icon { font-size: 18px; flex-shrink: 0; }
+    .cp2-pay-name { font-size: 12px; font-weight: 700; color: var(--maroon); }
+    .cp2-pay-sub { font-size: 10px; color: rgba(92,26,46,0.55); margin-top: 1px; }
+    .cp2-timeline-pills { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+    .cp2-tpill {
+      display: flex; gap: 6px; align-items: center;
+      background: var(--pink-pale); border-radius: 10px; padding: 7px 10px;
+      border: 1.5px solid rgba(92,26,46,0.1);
+    }
+    .cp2-tpill-active { background: var(--maroon); border-color: transparent; }
+    .cp2-tpill-active .cp2-tpill-label, .cp2-tpill-active .cp2-tpill-time { color: white; }
+    .cp2-tpill-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--pink-deep); flex-shrink: 0; }
+    .cp2-tpill-active .cp2-tpill-dot { background: rgba(255,255,255,0.6); }
+    .cp2-tpill-label { font-size: 11px; color: rgba(92,26,46,0.6); }
+    .cp2-tpill-time { font-size: 13px; font-weight: 700; color: var(--maroon); }
+    .cp2-tpill-arrow { font-size: 14px; color: var(--pink-deep); opacity: 0.5; }
+    .cp2-delivery-info { display: flex; flex-direction: column; gap: 8px; }
+    .cp2-di-item { display: flex; gap: 10px; font-size: 13px; color: rgba(92,26,46,0.7); align-items: flex-start; }
+    .cp2-tips-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
+    @media (max-width: 500px) { .cp2-tips-grid { grid-template-columns: 1fr; } }
+    .cp2-tip-item {
+      display: flex; gap: 10px; align-items: flex-start;
+      background: rgba(255,255,255,0.6); border-radius: 12px; padding: 10px 12px;
+      border: 1.5px solid rgba(92,26,46,0.08);
+    }
+    .cp2-tip-ico { font-size: 20px; flex-shrink: 0; }
+    .cp2-tip-text { font-size: 12px; color: rgba(92,26,46,0.7); line-height: 1.5; }
+    .cp2-tip-text strong { color: var(--maroon); }
+
+    /* ── CTA Block at bottom of Cara Pesan ── */
+    .cp2-cta-block {
+      margin-top: 36px;
+      background: linear-gradient(135deg, var(--maroon) 0%, var(--maroon-light) 100%);
+      border-radius: 22px; padding: 28px 24px; text-align: center; color: white;
+      box-shadow: 0 12px 36px rgba(92,26,46,0.3); position: relative; overflow: hidden;
+    }
+    .cp2-cta-block::before {
+      content: ''; position: absolute; top: -60px; right: -60px;
+      width: 220px; height: 220px; border-radius: 50%;
+      background: rgba(255,255,255,0.05); pointer-events: none;
+    }
+    .cp2-cta-block::after {
+      content: ''; position: absolute; bottom: -40px; left: -40px;
+      width: 160px; height: 160px; border-radius: 50%;
+      background: rgba(255,255,255,0.04); pointer-events: none;
+    }
+    .cp2-cta-emoji { font-size: 28px; margin-bottom: 6px; }
+    .cp2-cta-title { font-family: var(--font-display); font-size: clamp(18px,3vw,26px); letter-spacing: -0.02em; margin-bottom: 6px; }
+    .cp2-cta-sub { font-size: 13px; opacity: 0.8; margin-bottom: 20px; }
+    .cp2-cta-buttons { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
+    .cp2-btn {
+      display: flex; align-items: center; gap: 10px;
+      border-radius: 14px; padding: 11px 18px; text-decoration: none;
+      font-family: var(--font-body); transition: transform 0.2s, box-shadow 0.2s; min-width: 180px;
+    }
+    .cp2-btn:hover { transform: translateY(-3px); }
+    .cp2-btn-wa { background: #25D366; color: white; box-shadow: 0 6px 22px rgba(37,211,102,0.4); }
+    .cp2-btn-wa:hover { box-shadow: 0 12px 30px rgba(37,211,102,0.55); }
+    .cp2-btn-ig { background: linear-gradient(135deg, #f9ce34, #ee2a7b, #6228d7); color: white; box-shadow: 0 6px 22px rgba(238,42,123,0.4); }
+    .cp2-btn-ig:hover { box-shadow: 0 12px 30px rgba(238,42,123,0.55); }
+    .cp2-btn-icon { width: 22px; height: 22px; flex-shrink: 0; }
+    .cp2-btn-text { display: flex; flex-direction: column; text-align: left; }
+    .cp2-btn-label { font-size: 13px; font-weight: 700; }
+    .cp2-btn-sub { font-size: 10px; opacity: 0.85; margin-top: 1px; }
+    .cp2-cta-note { margin-top: 14px; font-size: 11px; opacity: 0.65; position: relative; z-index: 1; }
+  </style>
+</head>
+<body>
+
+  <!-- ── Mobile Menu ── -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#menu" onclick="closeMobile()">Menu Kami</a>
+    <a href="#cara-pesan" onclick="closeMobile()">Cara Pesan</a>
+    <a href="#testimoni" onclick="closeMobile()">Testimoni</a>
+    <a href="#lokasi" onclick="closeMobile()">Lokasi</a>
+  </div>
+
+  <!-- ── Navbar ── -->
+  <div class="navbar-wrap" id="navbar">
+    <nav class="navbar">
+      <a href="#" class="logo-wrap">
+        <span class="logo-name">Patlapan</span>
+        <span class="logo-sub">Kedai 48</span>
+      </a>
+      <div class="nav-links">
+        <a href="#menu">Menu Kami</a>
+        <a href="#cara-pesan">Cara Pesan</a>
+        <a href="#testimoni">Testimoni</a>
+        <a href="#lokasi">Lokasi</a>
+      </div>
+      <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <a class="cta-btn" href="https://wa.me/6285238080720?text=Halo%20Min%2C%20aku%20mau%20pesan%20SubiCube%20nih!%20%F0%9F%A7%8A" target="_blank">
+        <span class="cta-glint"></span>
+        <span class="cta-label">Pesan Sekarang</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- ── Hero ── -->
+  <section class="hero" id="beranda">
+    <div class="hero-bg"></div>
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+    <div class="cloud cloud-4"></div>
+    <div class="cloud cloud-5"></div>
+
+    <!-- Sparkles -->
+    <div class="sparkle" style="top:15%;left:8%;--d:3.5s;--delay:0.3s">
+      <svg width="20" height="20" viewBox="0 0 20 20"><path d="M10 0l1.8 8.2L20 10l-8.2 1.8L10 20l-1.8-8.2L0 10l8.2-1.8z" fill="#D96A8A" opacity="0.8"/></svg>
+    </div>
+    <div class="sparkle" style="top:70%;left:5%;--d:4s;--delay:1.2s">
+      <svg width="14" height="14" viewBox="0 0 20 20"><path d="M10 0l1.8 8.2L20 10l-8.2 1.8L10 20l-1.8-8.2L0 10l8.2-1.8z" fill="#EFAAC4" opacity="0.9"/></svg>
+    </div>
+    <div class="sparkle" style="top:20%;right:10%;--d:2.8s;--delay:0.7s">
+      <svg width="16" height="16" viewBox="0 0 20 20"><path d="M10 0l1.8 8.2L20 10l-8.2 1.8L10 20l-1.8-8.2L0 10l8.2-1.8z" fill="#5C1A2E" opacity="0.3"/></svg>
+    </div>
+    <div class="sparkle" style="top:50%;right:6%;--d:5s;--delay:2s">
+      <svg width="12" height="12" viewBox="0 0 20 20"><path d="M10 0l1.8 8.2L20 10l-8.2 1.8L10 20l-1.8-8.2L0 10l8.2-1.8z" fill="#D96A8A" opacity="0.7"/></svg>
+    </div>
+
+    <div class="hero-inner">
+      <!-- Left -->
+      <div class="hero-left">
+        <div class="hero-badge">
+          <div class="hero-badge-dot"></div>
+          Buka Setiap Hari · Mataram - Praya
+        </div>
+        <h1 class="hero-h1">
+          Subi<em>Cube</em>
+        </h1>
+        <p class="hero-desc">
+          Minuman kekinian yang bikin nagih. Kopi dengan susu segar asli dan taburan biskuit crumble!
+        </p>
+        <div class="ing-pills">
+          <span class="pill">🍪 Crumble Topping</span>
+          <span class="pill">🥛 Susu Segar</span>
+        </div>
+        <div class="price-tag">
+          <span class="price-label">Harga</span>
+          <span class="price-value">10K</span>
+          <span class="price-label">aja</span>
+        </div>
+
+        <div class="free-badge">🚴 Free Ongkir 5km dari Unram</div>
+      </div>
+
+      <!-- Right: Product -->
+      <div class="hero-right">
+        <div class="product-frame">
+          <div class="product-glow"></div>
+          <div class="product-img-wrap" style="background:none;">
+            <img src="https://i.imgur.com/XbJM4FB.png" alt="SubiCube — Kopi Susu Cube Ice" style="width:100%;height:100%;object-fit:cover;border-radius:28px;display:block;" />
+          </div>
+
+          <div class="typing-card">
+            <span class="typing-text" id="typing-display"></span>
+            <span class="cursor"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Menu ── -->
+  <section class="menu-section" id="menu">
+    <div class="menu-inner">
+      <div class="sec-header">
+        <h2 class="sec-title">Menu Kami</h2>
+        <p class="sec-sub">Pilihan minuman segar dari Kedai Patlapan 48</p>
+      </div>
+      <div class="menu-grid menu-grid-3">
+        <!-- SubiCube — featured & available -->
+        <div class="menu-card featured">
+          <div class="menu-img" style="padding:0;overflow:hidden;height:180px;background:none;">
+            <img src="https://i.imgur.com/gVNn8bF.png" alt="SubiCube" style="width:100%;height:100%;object-fit:cover;display:block;" />
+          </div>
+          <div class="menu-info">
+            <div class="menu-badge" style="display:inline-block;margin-bottom:8px;">Best Seller</div>
+            <div class="menu-name" style="font-size:22px;">SubiCube</div>
+            <div class="menu-desc">Kopi susu asli dengan taburan biskuit crumble. Minuman kekinian yang bikin nagih setiap hari!</div>
+            <div class="menu-flavors">
+              <span class="mf-pill">☕ Original</span>
+              <span class="mf-pill">🍪 Cookies</span>
+            </div>
+            <div class="menu-price" style="margin-top:14px;">
+              Mulai Rp 10.000
+            </div>
+          </div>
+        </div>
+
+        <!-- Spicy Shots — coming soon -->
+        <div class="menu-card menu-card-soon">
+          <div class="menu-img" style="padding:0;overflow:hidden;height:180px;background:none;">
+            <img src="https://i.imgur.com/ZALnBga.jpeg" alt="Spicy Shots" style="width:100%;height:100%;object-fit:cover;display:block;" />
+          </div>
+          <div class="menu-info">
+            <span class="soon-badge">Coming Soon</span>
+            <div class="menu-name" style="color:var(--maroon);margin-top:8px;">Spicy Shots</div>
+            <div class="menu-desc" style="color:rgba(92,26,46,0.55);">Minuman baru yang bakal bikin jantung berdebar! Perpaduan rasa pedas dan segar yang belum pernah kamu coba sebelumnya. Stay tuned! 🔥</div>
+            <div class="soon-notify">
+              <a href="https://instagram.com/kedaipatlapan" target="_blank" class="soon-notify-btn">🔔 Notify Me</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bento Box — coming soon -->
+        <div class="menu-card menu-card-soon">
+          <div class="menu-img" style="padding:0;overflow:hidden;height:180px;background:none;">
+            <img src="https://i.imgur.com/yKmEIDh.png" alt="Bento Box" style="width:100%;height:100%;object-fit:cover;display:block;" />
+          </div>
+          <div class="menu-info">
+            <span class="soon-badge">Coming Soon</span>
+            <div class="menu-name" style="color:var(--maroon);margin-top:8px;">Bento Box</div>
+            <div class="menu-desc" style="color:rgba(92,26,46,0.55);">Paket makan siang aesthetic dalam bento box yang instagramable. Sehat, kenyang, dan cocok dinikmati bareng SubiCube-mu. 🫶</div>
+            <div class="soon-notify">
+              <a href="https://instagram.com/kedaipatlapan" target="_blank" class="soon-notify-btn">🔔 Notify Me</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── How to Order ── -->
+  <section class="order-section" id="cara-pesan">
+    <div class="order-inner" style="max-width:900px;">
+      <div class="sec-header">
+        <h2 class="sec-title">Cara Pesan</h2>
+        <p class="sec-sub">Dari layar-mu sampai di tanganmu semudah ini!</p>
+      </div>
+
+      <!-- Timeline Steps -->
+      <div class="cp2-timeline">
+
+        <!-- Step 1 -->
+        <div class="cp2-step" data-step="1">
+          <div class="cp2-left">
+            <div class="cp2-circle">
+              <span>1</span>
+            </div>
+            <div class="cp2-line"></div>
+          </div>
+          <div class="cp2-card">
+            <div class="cp2-emoji">🛒</div>
+            <h3 class="cp2-title">Pilih Menu</h3>
+            <p class="cp2-desc">Cek menu kami di halaman ini. SubiCube tersedia sekarang, dan menu baru akan segera hadir!</p>
+            <div class="cp2-info">
+              <span class="cp2-info-icon">💡</span>
+              <span>Boleh pesan lebih dari 1 cup sekaligus!</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="cp2-step" data-step="2">
+          <div class="cp2-left">
+            <div class="cp2-circle">
+              <span>2</span>
+            </div>
+            <div class="cp2-line"></div>
+          </div>
+          <div class="cp2-card">
+            <div class="cp2-emoji">💬</div>
+            <h3 class="cp2-title">Hubungi Kami via WhatsApp atau Instagram</h3>
+            <p class="cp2-desc">Kirim pesan ke Admin melalui WhatsApp atau Instagram. Sertakan info berikut agar pesananmu langsung diproses:</p>
+            <div class="cp2-checklist">
+              <div class="cp2-check-item"><span class="cp2-check-dot">✓</span><span>Nama kamu</span></div>
+              <div class="cp2-check-item"><span class="cp2-check-dot">✓</span><span>Menu &amp; jumlah pesanan</span></div>
+              <div class="cp2-check-item"><span class="cp2-check-dot">✓</span><span>Alamat lengkap pengiriman</span></div>
+              <div class="cp2-check-item"><span class="cp2-check-dot">✓</span><span>Patokan lokasi (jika ada)</span></div>
+            </div>
+            <div class="cp2-template">
+              <div class="cp2-template-label">💬 Contoh pesan:</div>
+              <div class="cp2-template-text">"Halo Min, mau pesan SubiCube Original 2 cup + Cookies 1 cup. Alamat: Kos Melati, Jl. Majapahit No.5, dekat minimarket Alfa. Nama: Dika."</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="cp2-step" data-step="3">
+          <div class="cp2-left">
+            <div class="cp2-circle">
+              <span>3</span>
+            </div>
+            <div class="cp2-line"></div>
+          </div>
+          <div class="cp2-card">
+            <div class="cp2-emoji">✅</div>
+            <h3 class="cp2-title">Konfirmasi &amp; Pilih Metode Pembayaran</h3>
+            <p class="cp2-desc">Admin akan membalas dalam <strong>kurang dari 5 menit</strong> untuk konfirmasi pesanan dan total harga.</p>
+            <div class="cp2-payment-grid">
+              <div class="cp2-pay-item">
+                <span class="cp2-pay-icon">💵</span>
+                <div>
+                  <div class="cp2-pay-name">Tunai (COD)</div>
+                  <div class="cp2-pay-sub">Bayar saat pesanan tiba</div>
+                </div>
+              </div>
+              <div class="cp2-pay-item">
+                <span class="cp2-pay-icon">📱</span>
+                <div>
+                  <div class="cp2-pay-name">Transfer / QRIS</div>
+                  <div class="cp2-pay-sub">Bank · E-Wallet</div>
+                </div>
+              </div>
+            </div>
+            <div class="cp2-info">
+              <span class="cp2-info-icon">⚡</span>
+              <span>Pesananmu langsung diproses setelah konfirmasi. Tidak ada pre-order yang ribet!</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="cp2-step" data-step="4">
+          <div class="cp2-left">
+            <div class="cp2-circle">
+              <span>4</span>
+            </div>
+            <div class="cp2-line"></div>
+          </div>
+          <div class="cp2-card">
+            <div class="cp2-emoji">🛵</div>
+            <h3 class="cp2-title">Diproses &amp; Dikirim</h3>
+            <p class="cp2-desc">Pesananmu dibuat fresh saat itu juga dan langsung dikirim ke alamatmu.</p>
+            <div class="cp2-timeline-pills">
+              <div class="cp2-tpill cp2-tpill-active">
+                <div class="cp2-tpill-dot"></div>
+                <div>
+                  <div class="cp2-tpill-label">Proses Buat</div>
+                  <div class="cp2-tpill-time">5–10 menit</div>
+                </div>
+              </div>
+              <div class="cp2-tpill-arrow">→</div>
+              <div class="cp2-tpill">
+                <div class="cp2-tpill-dot"></div>
+                <div>
+                  <div class="cp2-tpill-label">Di Jalan</div>
+                  <div class="cp2-tpill-time">10–20 menit</div>
+                </div>
+              </div>
+              <div class="cp2-tpill-arrow">→</div>
+              <div class="cp2-tpill">
+                <div class="cp2-tpill-dot"></div>
+                <div>
+                  <div class="cp2-tpill-label">Total Est.</div>
+                  <div class="cp2-tpill-time">15–30 menit</div>
+                </div>
+              </div>
+            </div>
+            <div class="cp2-delivery-info">
+              <div class="cp2-di-item">
+                <span>🚴</span>
+                <span><strong>Free ongkir</strong> radius 5km dari Unram</span>
+              </div>
+              <div class="cp2-di-item">
+                <span>📍</span>
+                <span>Di luar 5km? Chat dulu untuk cek ongkir</span>
+              </div>
+              <div class="cp2-di-item">
+                <span>🏃</span>
+                <span>Atau ambil langsung di Jl. Gn. Kerinci No. 48</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="cp2-step" data-step="5" style="--last:1">
+          <div class="cp2-left">
+            <div class="cp2-circle cp2-circle-last">
+              <span>5</span>
+            </div>
+          </div>
+          <div class="cp2-card cp2-card-last">
+            <div class="cp2-emoji">🎉</div>
+            <h3 class="cp2-title">Terima &amp; Nikmati!</h3>
+            <p class="cp2-desc">Pesananmu datang. Minum langsung untuk pengalaman terbaik!</p>
+          </div>
+        </div>
+
+      </div><!-- end timeline -->
+
+      <!-- ── CTA Pesan Sekarang ── -->
+      <div class="cp2-cta-block">
+        <div class="cp2-cta-text">
+          <div class="cp2-cta-emoji">☕</div>
+          <h3 class="cp2-cta-title">Siap Pesan?</h3>
+          <p class="cp2-cta-sub">Pilih cara paling nyaman buatmu. Kami siap melayani!</p>
+        </div>
+        <div class="cp2-cta-buttons">
+          <!-- WhatsApp -->
+          <a class="cp2-btn cp2-btn-wa" href="https://wa.me/6285238080720?text=Halo%20Min%2C%20aku%20mau%20pesan%20SubiCube%20nih!%20%F0%9F%A7%8A" target="_blank" rel="noopener">
+            <svg class="cp2-btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <div class="cp2-btn-text">
+              <span class="cp2-btn-label">Pesan via WhatsApp</span>
+              <span class="cp2-btn-sub">0852-3808-0720</span>
+            </div>
+          </a>
+          <!-- Instagram -->
+          <a class="cp2-btn cp2-btn-ig" href="https://instagram.com/kedaipatlapan" target="_blank" rel="noopener">
+            <svg class="cp2-btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            <div class="cp2-btn-text">
+              <span class="cp2-btn-label">Pesan via Instagram</span>
+              <span class="cp2-btn-sub">@kedaipatlapan</span>
+            </div>
+          </a>
+        </div>
+        <div class="cp2-cta-note">
+          <span>⚡ Respon cepat · </span>
+          <span>🚴 Free ongkir 5km · </span>
+          <span>🕐 Buka setiap hari</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ── Testimonials ── -->
+  <section class="testi-section" id="testimoni">
+    <div class="testi-inner">
+      <div class="sec-header">
+        <h2 class="sec-title">Kata Mereka</h2>
+        <p class="sec-sub">Ribuan pelanggan sudah buktikan sendiri 🧡</p>
+      </div>
+
+      <div class="testi-summary">
+        <div class="testi-stat">
+          <div class="testi-stat-num">1.000+</div>
+          <div class="testi-stat-label">Pembeli Puas</div>
+        </div>
+        <div class="testi-stat">
+          <div class="testi-stat-num">4.9</div>
+          <div class="testi-stat-label">Rating Rata-rata</div>
+        </div>
+        <div class="testi-stat">
+          <div class="testi-stat-num">95%</div>
+          <div class="testi-stat-label">Repeat Order</div>
+        </div>
+      </div>
+
+      <div class="testi-grid" style="margin-top: 40px;">
+        <div class="testi-card">
+          <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+          <div class="testi-text">"Salah satu minuman terenak yang pernah aku coba di Mataram! Terus harganya juga Masya Allah banget"</div>
+          <div class="testi-author">
+            <div class="testi-avatar">👩</div>
+            <div>
+              <div class="testi-name">Rara Fitriani</div>
+              <div class="testi-handle">Mahasiswi Unram · FEB</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+          <div class="testi-text">"Jujur awalnya skeptis sama harga segitu, tapi begitu nyoba langsung ketagihan wkwkwk. Crumble topping-nya itu yang bikin unik. Recommended lah pokoknya"</div>
+          <div class="testi-author">
+            <div class="testi-avatar">👨</div>
+            <div>
+              <div class="testi-name">Muhammad Dika Maladewa</div>
+              <div class="testi-handle">Mahasiswa Unram · Teknik</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+          <div class="testi-text">"Saya udah langganan sampai seminggu 4 kali hahah. Adminnya ramah-ramah, responsnya juga cepat. SubiCube-nya juga ngga ada drama tumpah sama sekali pas diantar. 10/10"</div>
+          <div class="testi-author">
+            <div class="testi-avatar">👩</div>
+            <div>
+              <div class="testi-name">Nisa Aulia</div>
+              <div class="testi-handle">Kos-kosan Sekitaran Unram</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+          <div class="testi-text">"Buat yang cari minuman dengan harga terjangkau di Mataram, SubiCube bisa jadi salah satu opsi sih. Free ongkir lagi. Langsung chat dan pesen sih kata gua mah."</div>
+          <div class="testi-author">
+            <div class="testi-avatar">👨</div>
+            <div>
+              <div class="testi-name">Rizky Hermawan</div>
+              <div class="testi-handle">Warga Sekitar Patlapan</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+          <div class="testi-text">"Sumpah ini enak banget. Cookies-nya ga bikin ngeganggu sama sekali. Rasanya juga ga pahit dan ga terlalu manis. Buat harga Rp10.000 sih ini worth it banget jir"</div>
+          <div class="testi-author">
+            <div class="testi-avatar">👩</div>
+            <div>
+              <div class="testi-name">Putri Dewi</div>
+              <div class="testi-handle">Pelanggan di Praya</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+          <div class="testi-text">"Panas-panas di Mataram emang paling enak minum yang dingin-dingin kaya SubiCube wkkwk. Langsung pesan 3 sekaligus buat temen-temen kos. Semua suka."</div>
+          <div class="testi-author">
+            <div class="testi-avatar">👨</div>
+            <div>
+              <div class="testi-name">Fariz Maulana</div>
+              <div class="testi-handle">Mahasiswa Kos · Mataram</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Location ── -->
+  <section class="location-section" id="lokasi">
+    <div class="location-inner">
+      <div class="sec-header">
+        <h2 class="sec-title">Lokasi & Jam Buka</h2>
+        <p class="sec-sub">Temukan kami atau pesan langsung ke rumahmu</p>
+      </div>
+      <div class="location-grid">
+        <div class="location-info">
+          <div class="loc-item">
+            <div class="loc-icon">📍</div>
+            <div>
+              <div class="loc-label">Alamat</div>
+              <div class="loc-value">
+                Jl. Gn. Kerinci No. 48, Mataram<br>
+                Nusa Tenggara Barat 83114<br>
+                <small style="opacity:0.6">(Dekat Universitas Mataram)</small>
+              </div>
+            </div>
+          </div>
+          <div class="loc-item">
+            <div class="loc-icon">🕐</div>
+            <div>
+              <div class="loc-label">Jam Operasional</div>
+              <div class="loc-value">
+                <div class="jam-grid">
+                  <div class="jam-row"><span class="jam-day">Senin – Jumat</span><span class="jam-time">08.00 – 17.00 WITA</span></div>
+                  <div class="jam-row"><span class="jam-day">Sabtu – Minggu</span><span class="jam-time">08.00 – 17.00 WITA</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="loc-item">
+            <div class="loc-icon">📱</div>
+            <div>
+              <div class="loc-label">Kontak</div>
+              <div class="loc-value">
+                <a href="https://wa.me/6285238080720" target="_blank">📱 0852-3808-0720</a><br>
+                <a href="https://instagram.com/kedaipatlapan" target="_blank">📸 @kedaipatlapan</a>
+              </div>
+            </div>
+          </div>
+          <div class="loc-item">
+            <div class="loc-icon">🚴</div>
+            <div>
+              <div class="loc-label">Area Delivery</div>
+              <div class="loc-value">Free ongkir radius 5km dari Unram.<br>Di luar area? Chat dulu ya!</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="map-placeholder">
+          <div class="map-pin">📍</div>
+          <div class="map-label">Kedai Patlapan 48</div>
+          <div class="map-sub">Jl. Gn. Kerinci No. 48, Mataram<br>Dekat Universitas Mataram</div>
+          <a class="map-btn" href="https://www.google.com/maps/place/Jl.+Gn.+Kerinci+No.48,+Dasan+Agung+Baru,+Kec.+Selaparang,+Kota+Mataram,+Nusa+Tenggara+Bar.+83114" target="_blank">
+            🗺️ Buka di Google Maps
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">Patlapan 48</div>
+        <p class="footer-tagline">Kedai kopi & minuman kekinian yang menyegarkan di Mataram. Harga terjangkau, kualitas tidak main-main.</p>
+        <div class="footer-contacts">
+          <a href="https://wa.me/6285238080720" target="_blank">📱 0852-3808-0720</a>
+          <a href="https://instagram.com/kedaipatlapan" target="_blank">📸 @kedaipatlapan</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navigasi</h4>
+        <ul>
+          <li><a href="#beranda">Beranda</a></li>
+          <li><a href="#menu">Menu Kami</a></li>
+          <li><a href="#cara-pesan">Cara Pesan</a></li>
+          <li><a href="#testimoni">Testimoni</a></li>
+          <li><a href="#lokasi">Lokasi</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Info Pengiriman</h4>
+        <ul>
+          <li><span>🚴 Free ongkir 5km</span></li>
+          <li><span>⚡ Konfirmasi 5 menit</span></li>
+          <li><span>🕐 Est. 15–30 menit</span></li>
+          <li><span>📦 Packing rapi & aman</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Kedai Patlapan 48. All rights reserved.</p>
+      <p class="footer-copy">Made with ☕ in Mataram, NTB</p>
+    </div>
+  </footer>
+
+  <!-- ── Back to Top ── -->
+  <a class="back-top" href="#beranda" id="backTop">
+    <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+  </a>
+
+  <script>
+    // ── Typing Messages ──
+    const MESSAGES = ['SubiCube ✨', 'Susu + Kopi', 'Hanya 10rb!', 'Free Ongkir~', 'Pesan Sekarang!'];
+    const display = document.getElementById('typing-display');
+    let msgIndex = 0, charIndex = 0, phase = 'typing';
+    function tick() {
+      const current = MESSAGES[msgIndex];
+      if (phase === 'typing') {
+        if (charIndex < current.length) {
+          charIndex++;
+          display.textContent = current.slice(0, charIndex);
+          setTimeout(tick, 90);
+        } else {
+          phase = 'pausing';
+          setTimeout(() => { phase = 'deleting'; tick(); }, 1800);
+        }
+      } else if (phase === 'deleting') {
+        if (charIndex > 0) {
+          charIndex--;
+          display.textContent = current.slice(0, charIndex);
+          setTimeout(tick, 45);
+        } else {
+          msgIndex = (msgIndex + 1) % MESSAGES.length;
+          phase = 'typing';
+          setTimeout(tick, 120);
+        }
+      }
+    }
+    tick();
+
+    // ── Scroll Animations ──
+    const animItems = document.querySelectorAll('.feat-card, .menu-card, .cp2-card, .testi-card, .loc-item');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => {
+            e.target.style.opacity = '1';
+            e.target.style.transform = e.target.style.transform.replace(/translateY\([^)]+\)/, 'translateY(0)');
+          }, (i % 4) * 80);
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    animItems.forEach(c => {
+      c.style.opacity = '0';
+      c.style.transform = 'translateY(24px)';
+      c.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+      obs.observe(c);
+    });
+
+    // ── Navbar scroll effect ──
+    const navbarWrap = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) navbarWrap.classList.add('scrolled');
+      else navbarWrap.classList.remove('scrolled');
+    });
+
+    // ── Back to top ──
+    const backTop = document.getElementById('backTop');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 400) backTop.classList.add('visible');
+      else backTop.classList.remove('visible');
+    });
+
+    // ── Mobile Menu ──
+    function toggleMenu() {
+      const menu = document.getElementById('mobileMenu');
+      const btn = document.getElementById('hamburger');
+      menu.classList.toggle('open');
+      btn.classList.toggle('open');
+    }
+    function closeMobile() {
+      document.getElementById('mobileMenu').classList.remove('open');
+      document.getElementById('hamburger').classList.remove('open');
+    }
+  </script>
+
+</body>
+</html>
