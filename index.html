@@ -20,11 +20,11 @@
   <script>
     const { useState, useEffect, useCallback } = React;
 
-    // ======================== DATA PRODUK ========================
+    // ======================== DATA PRODUK (dengan harga) ========================
     const PRODUCTS = [
-      { src: "https://i.imgur.com/4V0S3eL.png", bg: "#C4A484", flavor: "Coffee", light: true,  bgTitle: "SubiCube" },
-      { src: "https://i.imgur.com/4MZdRuM.png", bg: "#6B8E23", flavor: "Matcha",          light: false, bgTitle: "SutchaCube" },
-      { src: "https://i.imgur.com/vX2sGan.png", bg: "#3C1321", flavor: "Chocolate",        light: false, bgTitle: "SuchoCube" },
+      { src: "https://i.imgur.com/4V0S3eL.png", bg: "#C4A484", flavor: "Coffee", light: true,  bgTitle: "SubiCube", price: 10000 },
+      { src: "https://i.imgur.com/4MZdRuM.png", bg: "#6B8E23", flavor: "Matcha",          light: false, bgTitle: "SutchaCube", price: 10000 },
+      { src: "https://i.imgur.com/vX2sGan.png", bg: "#3C1321", flavor: "Chocolate",        light: false, bgTitle: "SuchoCube", price: 10000 },
     ];
     const N = PRODUCTS.length;
 
@@ -118,21 +118,24 @@
       const e = React.createElement;
       
       const currentBgTitle = PRODUCTS[activeIndex].bgTitle;
-      // Teks background (SubiCube dll) selalu putih dengan opacity rendah, dan sekarang diposisikan tepat di tengah vertikal (di belakang produk)
       const bgTitleColor = WHITE_COLOR;
       const bgOpacity = 0.12;
 
-      // Nomor WhatsApp tujuan (085238080720 -> format internasional 6285238080720)
+      // Nomor WhatsApp tujuan
       const waNumber = "6285238080720";
       const waLink = `https://wa.me/${waNumber}`;
+      
+      // Format harga
+      const formatPrice = (price) => {
+        return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(price);
+      };
 
       return e("div", { style: { backgroundColor: cur.bg, transition: `background-color ${dur} ${ease}`, fontFamily: "'Inter',sans-serif", position: "relative", width: "100%", overflow: "hidden" } },
         e("div", { style: { position: "relative", width: "100%", height: vh + "px", overflow: "hidden" } },
 
           e("div", { style: { position:"absolute", inset:0, pointerEvents:"none", zIndex:50, backgroundImage:grain, backgroundSize:"200px 200px", backgroundRepeat:"repeat", opacity: isLight?0.12:0.32 } }),
 
-          // === TEKS BACKGROUND BESAR (SubiCube / SutchaCube / SuchoCube) sekarang di tengah vertikal ===
-          // Menggunakan top: 50% dan transform: translateY(-50%) agar selalu berada tepat di belakang produk
+          // TEKS BACKGROUND BESAR (SubiCube / SutchaCube / SuchoCube) di tengah vertikal
           e("div", { style: { position:"absolute", inset:"0 0 auto", left:0, right:0, top:"50%", transform:"translateY(-50%)", display:"flex", justifyContent:"center", alignItems:"center", pointerEvents:"none", userSelect:"none", zIndex:2 } },
             e("span", { 
               key: currentBgTitle,
@@ -171,18 +174,14 @@
             ))
           ),
 
-          // === Panel kiri bawah (promo & tombol navigasi) ===
+          // === Panel kiri bawah (promo, harga, & tombol navigasi) ===
           e("div", { style: { position:"absolute", bottom: isMobile?20:60, left: isMobile?14:72, zIndex:60, maxWidth:300 } },
-            // ★ "tempat singgah, rasa tak berubah" sekarang menggunakan font yang sama dengan @kedaipatlapan:
-            //    - font weight normal (400)
-            //    - teks biasa (tanpa uppercase)
-            //    - ukuran 13px (atau 10px di mobile)
-            //    - warna muted
             e("p", { style: { fontWeight:400, textTransform:"none", letterSpacing:"normal", marginBottom:3, fontSize: isMobile?10:13, color:dynamicFgMuted, opacity:1, transition:`color ${dur} ${ease}` } }, "@kedaipatlapan"),
             
             e("p", { style: { fontWeight:800, textTransform:"uppercase", marginBottom: isMobile?12:16, fontSize: isMobile?19:28, color:dynamicFg, lineHeight:1.1, transition:`color ${dur} ${ease}` } }, "MAU FREE ONGKIR?", e("br"), "BELI 2 ATAU FOLLOW INSTAGRAM KAMI"),
             
-            !isMobile && e("p", { style: { fontSize:13, color:dynamicFgMuted, lineHeight:1.65, marginBottom:18, maxWidth:240, transition:`color ${dur} ${ease}` } }, ""),
+            // === HARGA PRODUK (ditambahkan di sini) ===
+            e("p", { style: { fontWeight:700, fontSize: isMobile?20:28, color:dynamicFg, marginBottom: isMobile?10:14, letterSpacing:"-0.01em", transition:`color ${dur} ${ease}` } }, formatPrice(cur.price)),
             
             e("div", { style: { display:"flex", gap:10 } },
               ...[{dir:"prev",Icon:ArrowLeft},{dir:"next",Icon:ArrowRight}].map(({dir,Icon}) =>
