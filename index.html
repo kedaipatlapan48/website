@@ -22,9 +22,9 @@
 
     // ======================== DATA PRODUK ========================
     const PRODUCTS = [
-      { src: "https://i.imgur.com/4V0S3eL.png", bg: "#FFFFFF", flavor: "Coffee & Cookies", light: true,  bgTitle: "COFFEE" },
-      { src: "https://i.imgur.com/4MZdRuM.png", bg: "#6B8E23", flavor: "Matcha",          light: false, bgTitle: "MATCHA" },
-      { src: "https://i.imgur.com/vX2sGan.png", bg: "#3C1321", flavor: "Chocolate",        light: false, bgTitle: "CHOCOLATE" },
+      { src: "https://i.imgur.com/4V0S3eL.png", bg: "#C4A484", flavor: "Coffee", light: true,  bgTitle: "SubiCube" },
+      { src: "https://i.imgur.com/4MZdRuM.png", bg: "#6B8E23", flavor: "Matcha",          light: false, bgTitle: "SutchaCube" },
+      { src: "https://i.imgur.com/vX2sGan.png", bg: "#3C1321", flavor: "Chocolate",        light: false, bgTitle: "SuchoCube" },
     ];
     const N = PRODUCTS.length;
 
@@ -45,7 +45,6 @@
       const [isMobile, setIsMobile]       = useState(false);
       const [vh, setVh]                   = useState(600);
 
-      // Responsif & preload gambar
       useEffect(() => {
         const update = () => { 
           setIsMobile(window.innerWidth < 640); 
@@ -57,7 +56,6 @@
         return () => window.removeEventListener("resize", update);
       }, []);
 
-      // Navigasi antar produk (dengan animasi lock)
       const navigate = useCallback((dir) => {
         if (isAnimating) return;
         setIsAnimating(true);
@@ -68,9 +66,8 @@
       const cur      = PRODUCTS[activeIndex];
       const isLight  = cur.light;
       
-      // === Warna teks dinamis: khusus untuk produk COFFEE (index 0) gunakan warna coklat ===
-      const COFFEE_COLOR = "#6F4E37";   // classic coffee brown
-      const DEFAULT_LIGHT_FG = "#111111";
+      // === Warna teks: untuk varian Coffee (index 0) gunakan putih agar kontras dengan background krem ===
+      const WHITE_COLOR = "#FFFFFF";
       const DEFAULT_DARK_FG  = "#ffffff";
       
       let dynamicFg;
@@ -78,18 +75,17 @@
       let borderClr;
       
       if (activeIndex === 0) {
-        dynamicFg = COFFEE_COLOR;
-        dynamicFgMuted = "rgba(111, 78, 55, 0.55)";
-        borderClr = "rgba(111, 78, 55, 0.4)";
+        dynamicFg = WHITE_COLOR;
+        dynamicFgMuted = "rgba(255, 255, 255, 0.6)";
+        borderClr = "rgba(255, 255, 255, 0.5)";
       } else {
-        dynamicFg = isLight ? DEFAULT_LIGHT_FG : DEFAULT_DARK_FG;
-        dynamicFgMuted = isLight ? "rgba(0,0,0,0.5)" : "rgba(255,255,255,0.72)";
-        borderClr = isLight ? "rgba(0,0,0,0.35)" : "rgba(255,255,255,0.7)";
+        dynamicFg = DEFAULT_DARK_FG;
+        dynamicFgMuted = "rgba(255, 255, 255, 0.7)";
+        borderClr = "rgba(255, 255, 255, 0.5)";
       }
       
-      const dotClr   = (activeIndex === 0) ? COFFEE_COLOR : (isLight ? "#C1390C" : "#fff");
+      const dotClr   = (activeIndex === 0) ? WHITE_COLOR : "#fff";
       
-      // Posisi carousel 3D (tengah, kiri, kanan)
       const center = activeIndex;
       const left   = (activeIndex + N - 1) % N;
       const right  = (activeIndex + 1)     % N;
@@ -116,28 +112,15 @@
       const grain = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E")`;
       const btnHover = (e, on) => { 
         e.currentTarget.style.transform = on ? "scale(1.1)" : "scale(1)"; 
-        if (activeIndex === 0) {
-          e.currentTarget.style.background = on ? "rgba(111, 78, 55, 0.12)" : "transparent";
-        } else {
-          e.currentTarget.style.background = on ? (isLight ? "rgba(0,0,0,0.08)" : "rgba(255,255,255,0.15)") : "transparent";
-        }
+        e.currentTarget.style.background = on ? "rgba(255, 255, 255, 0.15)" : "transparent";
       };
       
       const e = React.createElement;
       
       const currentBgTitle = PRODUCTS[activeIndex].bgTitle;
-      let bgTitleColor;
-      let bgOpacity;
-      if (currentBgTitle === "COFFEE") {
-        bgTitleColor = COFFEE_COLOR;
-        bgOpacity = 0.09;
-      } else if (currentBgTitle === "MATCHA") {
-        bgTitleColor = "#E8F0D8";
-        bgOpacity = 0.12;
-      } else {
-        bgTitleColor = "#F5E6D3";
-        bgOpacity = 0.12;
-      }
+      // Teks background (SubiCube dll) selalu putih dengan opacity rendah, dan sekarang diposisikan tepat di tengah vertikal (di belakang produk)
+      const bgTitleColor = WHITE_COLOR;
+      const bgOpacity = 0.12;
 
       // Nomor WhatsApp tujuan (085238080720 -> format internasional 6285238080720)
       const waNumber = "6285238080720";
@@ -148,7 +131,9 @@
 
           e("div", { style: { position:"absolute", inset:0, pointerEvents:"none", zIndex:50, backgroundImage:grain, backgroundSize:"200px 200px", backgroundRepeat:"repeat", opacity: isLight?0.12:0.32 } }),
 
-          e("div", { style: { position:"absolute", inset:"0 0 auto", top:"14%", display:"flex", justifyContent:"center", alignItems:"center", pointerEvents:"none", userSelect:"none", zIndex:2 } },
+          // === TEKS BACKGROUND BESAR (SubiCube / SutchaCube / SuchoCube) sekarang di tengah vertikal ===
+          // Menggunakan top: 50% dan transform: translateY(-50%) agar selalu berada tepat di belakang produk
+          e("div", { style: { position:"absolute", inset:"0 0 auto", left:0, right:0, top:"50%", transform:"translateY(-50%)", display:"flex", justifyContent:"center", alignItems:"center", pointerEvents:"none", userSelect:"none", zIndex:2 } },
             e("span", { 
               key: currentBgTitle,
               style: { 
@@ -171,7 +156,7 @@
           ),
 
           e("div", { style: { position:"absolute", top:16, right: isMobile?14:30, zIndex:60 } },
-            e("span", { style: { fontSize:10, fontWeight:600, textTransform:"uppercase", color:dynamicFg, letterSpacing:"0.14em", background: (activeIndex===0) ? "rgba(111,78,55,0.1)" : (isLight?"rgba(0,0,0,0.07)":"rgba(255,255,255,0.14)"), padding:"4px 13px", borderRadius:20, transition:`color ${dur} ${ease}, background ${dur} ${ease}` } }, cur.flavor)
+            e("span", { style: { fontSize:10, fontWeight:600, textTransform:"uppercase", color:dynamicFg, letterSpacing:"0.14em", background: "rgba(255,255,255,0.2)", padding:"4px 13px", borderRadius:20, transition:`color ${dur} ${ease}, background ${dur} ${ease}` } }, cur.flavor)
           ),
 
           e("div", { style: { position:"absolute", top:52, left:"50%", transform:"translateX(-50%)", zIndex:60, display:"flex", gap:6, alignItems:"center" } },
@@ -186,10 +171,19 @@
             ))
           ),
 
+          // === Panel kiri bawah (promo & tombol navigasi) ===
           e("div", { style: { position:"absolute", bottom: isMobile?20:60, left: isMobile?14:72, zIndex:60, maxWidth:300 } },
-            e("p", { style: { fontWeight:700, textTransform:"uppercase", letterSpacing:"0.1em", marginBottom:3, fontSize: isMobile?10:13, color:dynamicFg, opacity:0.7, transition:`color ${dur} ${ease}` } }, "Menu Kami"),
-            e("p", { style: { fontWeight:800, textTransform:"uppercase", marginBottom: isMobile?12:16, fontSize: isMobile?19:28, color:dynamicFg, lineHeight:1.1, transition:`color ${dur} ${ease}` } }, "BELI 2 ATAU LEBIH", e("br"), "FREE ONGKIR!"),
-            !isMobile && e("p", { style: { fontSize:13, color:dynamicFgMuted, lineHeight:1.65, marginBottom:18, maxWidth:240, transition:`color ${dur} ${ease}` } }, "Tempat singgah, rasa tak berubah"),
+            // ★ "tempat singgah, rasa tak berubah" sekarang menggunakan font yang sama dengan @kedaipatlapan:
+            //    - font weight normal (400)
+            //    - teks biasa (tanpa uppercase)
+            //    - ukuran 13px (atau 10px di mobile)
+            //    - warna muted
+            e("p", { style: { fontWeight:400, textTransform:"none", letterSpacing:"normal", marginBottom:3, fontSize: isMobile?10:13, color:dynamicFgMuted, opacity:1, transition:`color ${dur} ${ease}` } }, "@kedaipatlapan"),
+            
+            e("p", { style: { fontWeight:800, textTransform:"uppercase", marginBottom: isMobile?12:16, fontSize: isMobile?19:28, color:dynamicFg, lineHeight:1.1, transition:`color ${dur} ${ease}` } }, "MAU FREE ONGKIR?", e("br"), "BELI 2 ATAU FOLLOW IG KAMI"),
+            
+            !isMobile && e("p", { style: { fontSize:13, color:dynamicFgMuted, lineHeight:1.65, marginBottom:18, maxWidth:240, transition:`color ${dur} ${ease}` } }, ""),
+            
             e("div", { style: { display:"flex", gap:10 } },
               ...[{dir:"prev",Icon:ArrowLeft},{dir:"next",Icon:ArrowRight}].map(({dir,Icon}) =>
                 e("button", { key:dir, onClick:() => navigate(dir),
@@ -201,7 +195,6 @@
             )
           ),
 
-          // === Tombol PESAN SEKARANG dengan link WhatsApp (langsung ke 085238080720) ===
           e("div", { style: { position:"absolute", bottom: isMobile?20:60, right: isMobile?14:36, zIndex:60 } },
             e("a", { href: waLink, target: "_blank", rel: "noopener noreferrer",
               onMouseEnter: ev => ev.currentTarget.style.opacity="1",
