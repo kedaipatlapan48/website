@@ -22,9 +22,10 @@
 
     // ======================== DATA PRODUK (dengan harga) ========================
     const PRODUCTS = [
-      { src: "https://i.imgur.com/4V0S3eL.png", bg: "#C4A484", flavor: "Coffee", light: true,  bgTitle: "SubiCube", price: 10000 },
-      { src: "https://i.imgur.com/4MZdRuM.png", bg: "#6B8E23", flavor: "Matcha",          light: false, bgTitle: "SutchaCube", price: 10000 },
-      { src: "https://i.imgur.com/vX2sGan.png", bg: "#3C1321", flavor: "Chocolate",        light: false, bgTitle: "SuchoCube", price: 10000 },
+      { src: "https://i.imgur.com/MoPi2sk.png", bg: "#C4A484", flavor: "Coffee",    light: true,  bgTitle: "SubiCube",   price: 12000 },
+      { src: "https://i.imgur.com/ZYHJP3l.png", bg: "#6B8E23", flavor: "Matcha",    light: false, bgTitle: "SutchaCube", price: 12000 },
+      { src: "https://i.imgur.com/o6RAzBX.png", bg: "#3C1321", flavor: "Chocolate", light: false, bgTitle: "SuchoCube",  price: 12000 },
+      { src: "https://i.imgur.com/p5FqCMM.png", bg: "#B8860B", flavor: "Kurma",     light: false, bgTitle: "SurmaCube",  price: 12000 },
     ];
     const N = PRODUCTS.length;
 
@@ -129,12 +130,12 @@
       const center = activeIndex;
       const left   = (activeIndex + N - 1) % N;
       const right  = (activeIndex + 1)     % N;
+      const back   = (activeIndex + 2)     % N;
 
       const W        = isMobile ? "78vw" : "46vw";
       const sideX    = isMobile ? "48vw" : "40vw";
       const sideYPct = isMobile ? "28%"  : "22%";
       const sideScl  = isMobile ? 0.36   : 0.40;
-      // Durasi 1 detik, easing dengan overshoot di awal (memberi efek "gerak ke kanan dulu" saat geser ke kiri)
       const ease     = "cubic-bezier(0.2, 1.3, 0.4, 1)";
       const dur      = "1000ms";
 
@@ -145,9 +146,11 @@
           transition: `transform ${dur} ${ease}, filter ${dur} ${ease}, opacity ${dur} ${ease}`,
           willChange: "transform, filter, opacity",
         };
-        if (i === center) return { ...base, transform: "translate3d(-50%,0,0) scale(1)", filter: "blur(0px)", opacity: 1, zIndex: 20 };
-        if (i === left)   return { ...base, transform: `translate3d(calc(-50% - ${sideX}),${sideYPct},0) scale(${sideScl})`, filter: "blur(3px)", opacity: 0.72, zIndex: 10 };
-        return                   { ...base, transform: `translate3d(calc(-50% + ${sideX}),${sideYPct},0) scale(${sideScl})`, filter: "blur(3px)", opacity: 0.72, zIndex: 10 };
+        if (i === center) return { ...base, transform: "translate3d(-50%,0,0) scale(1)",                                                                           filter: "blur(0px)", opacity: 1,    zIndex: 20 };
+        if (i === left)   return { ...base, transform: `translate3d(calc(-50% - ${sideX}),${sideYPct},0) scale(${sideScl})`,                                       filter: "blur(3px)", opacity: 0.72, zIndex: 10 };
+        if (i === right)  return { ...base, transform: `translate3d(calc(-50% + ${sideX}),${sideYPct},0) scale(${sideScl})`,                                       filter: "blur(3px)", opacity: 0.72, zIndex: 10 };
+        /* back — tersembunyi tepat di belakang kartu tengah */
+        return                   { ...base, transform: "translate3d(-50%,0,0) scale(0.15)",                                                                        filter: "blur(8px)", opacity: 0,    zIndex: 1  };
       };
 
       const grain = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E")`;
