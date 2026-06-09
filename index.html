@@ -13,6 +13,47 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body, #root { width: 100%; height: 100%; }
     body { font-family: 'Inter', sans-serif; overflow: hidden; }
+
+    /* ---- ENTER ---- */
+    @keyframes ingrFromTop {
+      0%   { transform: translateY(-100px) rotate(-15deg) scale(0.4); opacity: 0; }
+      65%  { opacity: 1; }
+      100% { transform: translateY(0px)   rotate(-15deg) scale(1); opacity: 1; }
+    }
+    @keyframes ingrFromBot {
+      0%   { transform: translateY(100px) rotate(12deg) scale(0.4); opacity: 0; }
+      65%  { opacity: 1; }
+      100% { transform: translateY(0px)  rotate(12deg) scale(1); opacity: 1; }
+    }
+    @keyframes ingrFromTop2 {
+      0%   { transform: translateY(-100px) rotate(20deg) scale(0.4); opacity: 0; }
+      65%  { opacity: 1; }
+      100% { transform: translateY(0px)   rotate(20deg) scale(1); opacity: 1; }
+    }
+    /* ---- EXIT (reverse) ---- */
+    @keyframes ingrToTop {
+      0%   { transform: translateY(0px)    rotate(-15deg) scale(1);   opacity: 1; }
+      40%  { opacity: 1; }
+      100% { transform: translateY(-100px) rotate(-15deg) scale(0.4); opacity: 0; }
+    }
+    @keyframes ingrToBot {
+      0%   { transform: translateY(0px)   rotate(12deg) scale(1);   opacity: 1; }
+      40%  { opacity: 1; }
+      100% { transform: translateY(100px) rotate(12deg) scale(0.4); opacity: 0; }
+    }
+    @keyframes ingrToTop2 {
+      0%   { transform: translateY(0px)    rotate(20deg) scale(1);   opacity: 1; }
+      40%  { opacity: 1; }
+      100% { transform: translateY(-100px) rotate(20deg) scale(0.4); opacity: 0; }
+    }
+    /* ---- ENTER classes ---- */
+    .ingr-1     { animation: ingrFromTop  0.8s cubic-bezier(0.2,1.3,0.4,1) 0.05s both; }
+    .ingr-2     { animation: ingrFromBot  0.8s cubic-bezier(0.2,1.3,0.4,1) 0.20s both; }
+    .ingr-3     { animation: ingrFromTop2 0.8s cubic-bezier(0.2,1.3,0.4,1) 0.11s both; }
+    /* ---- EXIT classes ---- */
+    .ingr-1-out { animation: ingrToTop  0.45s cubic-bezier(0.55,0,0.9,0) 0s both; }
+    .ingr-2-out { animation: ingrToBot  0.45s cubic-bezier(0.55,0,0.9,0) 0s both; }
+    .ingr-3-out { animation: ingrToTop2 0.45s cubic-bezier(0.55,0,0.9,0) 0s both; }
   </style>
 </head>
 <body>
@@ -22,10 +63,12 @@
 
     // ======================== DATA PRODUK (dengan harga) ========================
     const PRODUCTS = [
-      { src: "https://i.imgur.com/MoPi2sk.png", bg: "#C4A484", flavor: "Coffee",    light: true,  bgTitle: "SubiCube",   price: 12000 },
+      { src: "https://i.imgur.com/MoPi2sk.png", bg: "#A67B5B", flavor: "Coffee",    light: true,  bgTitle: "SubiCube",   price: 12000 },
       { src: "https://i.imgur.com/ZYHJP3l.png", bg: "#6B8E23", flavor: "Matcha",    light: false, bgTitle: "SutchaCube", price: 12000 },
       { src: "https://i.imgur.com/o6RAzBX.png", bg: "#3C1321", flavor: "Chocolate", light: false, bgTitle: "SuchoCube",  price: 12000 },
       { src: "https://i.imgur.com/p5FqCMM.png", bg: "#B8860B", flavor: "Kurma",     light: false, bgTitle: "SurmaCube",  price: 12000 },
+      { src: "https://i.imgur.com/YliUWFn.png", bg: "#F37600", flavor: "Thai Tea",  light: false, bgTitle: "Thai Tea",  price: 10000 },
+      { src: "https://i.imgur.com/9HyZHmZ.png", bg: "#F5A967", flavor: "Teh Tarik", light: false, bgTitle: "Teh Tarik",  price: 10000 },
     ];
     const N = PRODUCTS.length;
 
@@ -45,8 +88,45 @@
       const [isAnimating, setIsAnimating] = useState(false);
       const [isMobile, setIsMobile]       = useState(false);
       const [vh, setVh]                   = useState(600);
-      
+      // Unified ingredient state — satu state untuk semua varian
+      // displayedIngrIndex: produk mana yang bahannya sedang dirender (bisa lag dari activeIndex saat transisi)
+      // ingrPhase: "in" | "out" | "hidden"
+      // ingrKey: di-increment tiap kali produk baru masuk → paksa ulang animasi CSS
+      const [displayedIngrIndex, setDisplayedIngrIndex] = useState(0);
+      const [ingrPhase, setIngrPhase]                   = useState("in");
+      const [ingrKey, setIngrKey]                       = useState(0);
+
       const animTimeoutRef = useRef(null);
+      const ingrTimerRef   = useRef(null);
+      const isFirstRender  = useRef(true);
+
+      // Unified ingredient animation — sequential: exit dulu, baru enter
+      // isFirstRender: skip effect saat mount (state awal sudah benar)
+      useEffect(() => {
+        if (isFirstRender.current) {
+          isFirstRender.current = false;
+          return;
+        }
+        if (ingrTimerRef.current) { clearTimeout(ingrTimerRef.current); ingrTimerRef.current = null; }
+
+        const EXIT_DURATION = 300; // ms — durasi animasi keluar
+
+        // Phase 1: trigger exit bahan produk yang sedang tampil
+        setIngrPhase("out");
+
+        ingrTimerRef.current = setTimeout(() => {
+          // Phase 2: sembunyikan dari DOM
+          setIngrPhase("hidden");
+          ingrTimerRef.current = setTimeout(() => {
+            // Phase 3: switch ke produk baru & animasikan masuk
+            setDisplayedIngrIndex(activeIndex);
+            setIngrKey(k => k + 1);
+            setIngrPhase("in");
+            ingrTimerRef.current = null;
+          }, 30); // jeda kecil agar React render "hidden" sebelum "in"
+        }, EXIT_DURATION);
+
+      }, [activeIndex]);
 
       // Fungsi untuk mengubah indeks dengan respons instan (tanpa menunggu animasi selesai)
       const changeIndex = useCallback((newIndex) => {
@@ -101,6 +181,10 @@
         update();
         window.addEventListener("resize", update);
         PRODUCTS.forEach(({ src }) => { const img = new Image(); img.src = src; });
+        // Preload bahan-bahan SubiCube & MatchaCube
+        ["https://i.imgur.com/lxzP1Ef.png","https://i.imgur.com/cw6oCOT.png","https://i.imgur.com/LgimhcC.png",
+         "https://i.imgur.com/LS2P9Np.png","https://i.imgur.com/5WqeQXj.png","https://i.imgur.com/xMOIvH8.png"]
+          .forEach(src => { const img = new Image(); img.src = src; });
         return () => window.removeEventListener("resize", update);
       }, []);
 
@@ -130,12 +214,12 @@
       const center = activeIndex;
       const left   = (activeIndex + N - 1) % N;
       const right  = (activeIndex + 1)     % N;
-      const back   = (activeIndex + 2)     % N;
+      // item selain center/left/right otomatis masuk posisi back (tersembunyi)
 
-      const W        = isMobile ? "78vw" : "46vw";
-      const sideX    = isMobile ? "48vw" : "40vw";
-      const sideYPct = isMobile ? "28%"  : "22%";
-      const sideScl  = isMobile ? 0.36   : 0.40;
+      const W        = isMobile ? "80vw"  : "48vw";
+      const sideX    = isMobile ? "50vw"  : "43vw";
+      const sideYPct = isMobile ? "30%"   : "24%";
+      const sideScl  = isMobile ? 0.34    : 0.38;
       const ease     = "cubic-bezier(0.2, 1.3, 0.4, 1)";
       const dur      = "1000ms";
 
@@ -146,9 +230,9 @@
           transition: `transform ${dur} ${ease}, filter ${dur} ${ease}, opacity ${dur} ${ease}`,
           willChange: "transform, filter, opacity",
         };
-        if (i === center) return { ...base, transform: "translate3d(-50%,0,0) scale(1)",                                                                           filter: "blur(0px)", opacity: 1,    zIndex: 20 };
-        if (i === left)   return { ...base, transform: `translate3d(calc(-50% - ${sideX}),${sideYPct},0) scale(${sideScl})`,                                       filter: "blur(3px)", opacity: 0.72, zIndex: 10 };
-        if (i === right)  return { ...base, transform: `translate3d(calc(-50% + ${sideX}),${sideYPct},0) scale(${sideScl})`,                                       filter: "blur(3px)", opacity: 0.72, zIndex: 10 };
+        if (i === center) return { ...base, transform: "translate3d(-50%,0,0) scale(1)",                                                                           filter: "blur(0px)",  opacity: 1,    zIndex: 20 };
+        if (i === left)   return { ...base, transform: `translate3d(calc(-50% - ${sideX}),${sideYPct},0) scale(${sideScl})`,                                       filter: "blur(4px)",  opacity: 0.65, zIndex: 10 };
+        if (i === right)  return { ...base, transform: `translate3d(calc(-50% + ${sideX}),${sideYPct},0) scale(${sideScl})`,                                       filter: "blur(4px)",  opacity: 0.65, zIndex: 10 };
         /* back — tersembunyi tepat di belakang kartu tengah */
         return                   { ...base, transform: "translate3d(-50%,0,0) scale(0.15)",                                                                        filter: "blur(8px)", opacity: 0,    zIndex: 1  };
       };
@@ -160,6 +244,39 @@
       };
       
       const e = React.createElement;
+
+      // ---- INGREDIENTS LOOKUP ----
+      // Tambahkan data bahan per index produk di sini.
+      // Key = index produk di array PRODUCTS.
+      // Setiap item: { src, alt, cls: [enter, exit], pos: {}, size }
+      // pos menggunakan key CSS positional: left/right/top/bottom
+      const m = isMobile; // alias pendek untuk isMobile
+      const INGR = {
+        0: [ // SubiCube / Coffee
+          { src:"https://i.imgur.com/lxzP1Ef.png", alt:"Bahan SubiCube",   enterCls:"ingr-1", exitCls:"ingr-1-out", pos:{ left: m?"4%":"19%",  top:    m?"24%":"22%" }, size: m?95:150 },
+          { src:"https://i.imgur.com/cw6oCOT.png", alt:"Bahan SubiCube",   enterCls:"ingr-2", exitCls:"ingr-2-out", pos:{ right: m?"4%":"18%", bottom: m?"18%":"22%" }, size: m?95:150 },
+          { src:"https://i.imgur.com/LgimhcC.png", alt:"Bahan SubiCube",   enterCls:"ingr-3", exitCls:"ingr-3-out", pos:{ right: m?"4%":"20%", top:    m?"38%":"20%" }, size: m?85:130 },
+        ],
+        1: [ // SutchaCube / Matcha
+          { src:"https://i.imgur.com/LS2P9Np.png", alt:"Bahan MatchaCube", enterCls:"ingr-1", exitCls:"ingr-1-out", pos:{ left: m?"4%":"19%",  top:    m?"22%":"20%" }, size: m?95:150 },
+          { src:"https://i.imgur.com/5WqeQXj.png", alt:"Bahan MatchaCube", enterCls:"ingr-2", exitCls:"ingr-2-out", pos:{ right: m?"4%":"18%", bottom: m?"16%":"20%" }, size: m?95:150 },
+          { src:"https://i.imgur.com/xMOIvH8.png", alt:"Bahan MatchaCube", enterCls:"ingr-3", exitCls:"ingr-3-out", pos:{ right: m?"4%":"20%", top:    m?"36%":"18%" }, size: m?85:130 },
+        ],
+        2: [ // SuchoCube / Chocolate
+          { src:"https://i.imgur.com/ZdocnSO.png", alt:"Bahan SuchoCube", enterCls:"ingr-1", exitCls:"ingr-1-out", pos:{ left: m?"4%":"19%",  top:    m?"22%":"20%" }, size: m?95:150 },
+          { src:"https://i.imgur.com/GXXGqLf.png", alt:"Bahan SuchoCube", enterCls:"ingr-2", exitCls:"ingr-2-out", pos:{ right: m?"4%":"18%", bottom: m?"16%":"20%" }, size: m?95:150 },
+          { src:"https://i.imgur.com/LQYKWW4.png", alt:"Bahan SuchoCube", enterCls:"ingr-3", exitCls:"ingr-3-out", pos:{ right: m?"4%":"20%", top:    m?"36%":"18%" }, size: m?85:130 },
+        ],
+        3: [ // SurmaCube / Kurma
+          { src:"https://i.imgur.com/jfTx72V.png", alt:"Bahan SurmaCube", enterCls:"ingr-1", exitCls:"ingr-1-out", pos:{ left: m?"4%":"19%",  top:    m?"22%":"20%" }, size: m?95:150 },
+          { src:"https://i.imgur.com/Vnvd6Xk.png", alt:"Bahan SurmaCube", enterCls:"ingr-2", exitCls:"ingr-2-out", pos:{ right: m?"4%":"18%", bottom: m?"16%":"20%" }, size: m?95:150 },
+          { src:"https://i.imgur.com/H3ISEyq.png", alt:"Bahan SurmaCube", enterCls:"ingr-3", exitCls:"ingr-3-out", pos:{ right: m?"4%":"20%", top:    m?"36%":"18%" }, size: m?85:130 },
+        ],
+        // Tambahkan varian baru di sini nanti:
+        // 4: [ ... ], // Thai Tea
+        // 5: [ ... ], // Teh Tarik
+      };
+      const currentIngredients = INGR[displayedIngrIndex] || null;
       
       const currentBgTitle = PRODUCTS[activeIndex].bgTitle;
       const bgTitleColor = WHITE_COLOR;
@@ -177,6 +294,28 @@
         e("div", { style: { position: "relative", width: "100%", height: vh + "px", overflow: "hidden" } },
 
           e("div", { style: { position:"absolute", inset:0, pointerEvents:"none", zIndex:50, backgroundImage:grain, backgroundSize:"200px 200px", backgroundRepeat:"repeat", opacity: isLight?0.12:0.32 } }),
+
+          // BAHAN-BAHAN — unified render untuk semua varian
+          ingrPhase !== "hidden" && currentIngredients && e("div", {
+            key: "ingr-" + ingrKey,
+            style: { position:"absolute", inset:0, pointerEvents:"none", zIndex:22 }
+          },
+            ...currentIngredients.map((ingr, i) =>
+              e("div", {
+                key: i,
+                className: ingrPhase === "out" ? ingr.exitCls : ingr.enterCls,
+                style: {
+                  position: "absolute",
+                  ...ingr.pos,
+                  width:  ingr.size,
+                  height: ingr.size,
+                  filter: "drop-shadow(0 10px 22px rgba(0,0,0,0.40))"
+                }
+              },
+                e("img", { src: ingr.src, alt: ingr.alt, style:{ width:"100%", height:"100%", objectFit:"contain" }, draggable: false })
+              )
+            )
+          ),
 
           // TEKS BACKGROUND BESAR
           e("div", { style: { position:"absolute", inset:"0 0 auto", left:0, right:0, top:"50%", transform:"translateY(-50%)", display:"flex", justifyContent:"center", alignItems:"center", pointerEvents:"none", userSelect:"none", zIndex:2 } },
